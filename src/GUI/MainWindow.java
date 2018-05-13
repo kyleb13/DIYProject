@@ -28,7 +28,8 @@ public class MainWindow extends Application {
     	
     		Scene scene = new Scene(pane);
     		
-    		WindowControl control = loader.getController();
+    		//WindowControl control = loader.getController();
+    		//control.setMain(this);
     		
     		primaryStage.setScene(scene);
     		primaryStage.show();
