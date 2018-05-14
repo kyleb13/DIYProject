@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.InfoWindowControl">
+   <children>
+      <TextField id="name" fx:id="name" layoutX="207.0" layoutY="135.0" onAction="#handleUserName" />
+      <TextField id="email" fx:id="email" layoutX="207.0" layoutY="200.0" onAction="#handleUserEmail" />
+      <Text layoutX="248.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Your Stuff" />
+      <Button fx:id="ok" layoutX="460.0" layoutY="336.0" mnemonicParsing="false" onAction="#post" text="Button" />
+   </children>
+</AnchorPane>
