@@ -16,6 +16,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>src/infoWindow.fxml</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Desktop/infoWindow.fxml</locationURI>
+		</link>
+		<link>
 			<name>src/theWindow.fxml</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Desktop/theWindow.fxml</locationURI>

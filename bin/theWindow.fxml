@@ -18,9 +18,8 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Settings">
               <items>
-                <MenuItem mnemonicParsing="false" text="Export" />
-                  <MenuItem mnemonicParsing="false" text="Import" />
-                  <MenuItem mnemonicParsing="false" text="Personal Information" />
+                <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleImport" text="Import" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Help">
