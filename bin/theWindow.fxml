@@ -16,9 +16,10 @@
               <MenuItem mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Settings">
+            <Menu mnemonicParsing="false" text="Options">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export" />
+                <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Settings" />
+                  <MenuItem mnemonicParsing="false" text="Export" />
                   <MenuItem mnemonicParsing="false" onAction="#handleImport" text="Import" />
               </items>
             </Menu>
