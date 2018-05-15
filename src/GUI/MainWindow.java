@@ -1,6 +1,8 @@
 package GUI;
 import java.io.IOException;
 
+import Control.WindowControl;
+import Model.ProjectManager;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +17,7 @@ public class MainWindow extends Application {
     
 	private Stage primaryStage;
 	
+	
     @Override
     public void start(Stage primaryStage) {
       this.primaryStage = primaryStage;
@@ -28,8 +31,8 @@ public class MainWindow extends Application {
     	
     		Scene scene = new Scene(pane);
     		
-    		//WindowControl control = loader.getController();
-    		//control.setMain(this);
+    		WindowControl control = loader.getController();
+    		control.makeWindow(primaryStage);
     		
     		primaryStage.setScene(scene);
     		primaryStage.show();
