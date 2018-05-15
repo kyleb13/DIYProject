@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.WindowControl">
+<AnchorPane maxHeight="400.0" maxWidth="600.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control.WindowControl">
    <children>
       <MenuBar fx:id="bar" prefHeight="32.0" prefWidth="600.0" AnchorPane.bottomAnchor="368.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -16,9 +16,10 @@
               <MenuItem mnemonicParsing="false" onAction="#handleExitButton" text="Exit" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Settings">
+            <Menu mnemonicParsing="false" text="Options">
               <items>
-                <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export" />
+                <MenuItem mnemonicParsing="false" onAction="#handleSettings" text="Settings" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export" />
                   <MenuItem mnemonicParsing="false" onAction="#handleImport" text="Import" />
               </items>
             </Menu>
