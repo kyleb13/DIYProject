@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 public class InfoWindowControl {
 
-	private static final Node TextField = null;
+	//private static final Node TextField = null;
 	@FXML private TextField name;
 	@FXML private TextField email;
 	@FXML private Button ok;
@@ -45,6 +45,8 @@ public class InfoWindowControl {
 		info += ((TextField) l.get(1)).getText();
 		System.out.println(info);
 		//TODO: Call file out here to save the name and email with the projects
+		
+		
 		finish();
 	}
 }
