@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Optional;
 
-import GUI.InfoWindow;
 import GUI.MainWindow;
 import Model.ProjectManager;
+import javafx.event.EventDispatcher;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -21,21 +24,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 public class WindowControl{
 	
-	
+	@FXML private AnchorPane theInfo;
 	@FXML private TextField search;
-	//@FXML private AnchorPane pane;
+	private ProjectManager manager;
+	private Stage window;
 	
-	private Window window;
-	
-	
-	private ProjectManager proj;
-	
-	public void makeWindow(Window window) {
+	public void makeWindow(Stage window) {
 		this.window = window;
+		manager = new ProjectManager();
 	}
 	
 	public void handleExitButton() {
@@ -64,10 +65,33 @@ public class WindowControl{
 		alert.showAndWait();
 	}
 	
-	public void handleSettings()  {
+	public void handleSettings() throws InterruptedException  {
 		
-		InfoWindow w = new InfoWindow();
-		w.infoWindow();
+		//InfoWindow w = new InfoWindow();
+		//w.infoWindow();
+		//w.showAndWait();
+		try {
+			FXMLLoader loader = new FXMLLoader(MainWindow.class.getResource("/infoWindow.fxml"));
+			
+    		AnchorPane pane = loader.load();
+    	
+    		Scene scene = new Scene(pane);
+    		
+    		InfoWindowControl cont = loader.getController();
+    		
+    		Stage s = new Stage();
+    		s.setScene(scene);
+    		s.showAndWait();
+    		String str = cont.info;
+    		System.out.println(str);
+    		
+			
+		}catch(IOException e) {
+    		e.printStackTrace();
+		}
+		
+		
+    		
 		
 	}
 	

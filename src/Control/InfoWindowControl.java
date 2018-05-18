@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class InfoWindowControl {
 
@@ -22,19 +23,8 @@ public class InfoWindowControl {
 	@FXML private Button ok;
 	@FXML private GridPane grid;
 	
+	/*private static*/ public String info = "";
 	
-	private static String info = "";
-	
-	public void handleUserName() {
-		//String userName = name.getText();
-		//info +=name.getText();
-		
-		
-	}
-	public void handleUserEmail() {
-		//String userEmail = email.getText();
-		//info+=email.getText();
-	}
 	
 	public void finish() {
         ((Stage) (ok.getScene().getWindow())).close();
@@ -43,10 +33,13 @@ public class InfoWindowControl {
 		ObservableList<Node> l = grid.getChildren();
 		info += ((TextField) l.get(0)).getText();
 		info += ((TextField) l.get(1)).getText();
-		System.out.println(info);
-		//TODO: Call file out here to save the name and email with the projects
-		
-		
+		//System.out.println(info);
 		finish();
+	}
+	public String getName() {
+		return name.getText();
+	}
+	public String getEmail() {
+		return email.getText();
 	}
 }
