@@ -25,5 +25,6 @@
             <Label text="Email" GridPane.rowIndex="1" />
          </children>
       </GridPane>
+      <Label fx:id="errorLabel" layoutX="122.0" layoutY="249.0" text="Invalid Email Please Enter Email in the Form: example@sample.com" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.leftAnchor="122.0" />
    </children>
 </AnchorPane>

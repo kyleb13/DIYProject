@@ -13,6 +13,6 @@ public class ProjectManager {
 		
 		public ArrayList<Project> getProjects() {
 			return projects;
-		}
+		} 
 		
 }

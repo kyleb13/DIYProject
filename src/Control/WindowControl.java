@@ -1,9 +1,11 @@
 package Control;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -33,6 +35,8 @@ public class WindowControl{
 	@FXML private TextField search;
 	private ProjectManager manager;
 	private Stage window;
+	private String user;
+	private String email;
 	
 	public void makeWindow(Stage window) {
 		this.window = window;
@@ -65,14 +69,11 @@ public class WindowControl{
 		alert.showAndWait();
 	}
 	
-	public void handleSettings() throws InterruptedException  {
+	public void handleSettings() {
 		
-		//InfoWindow w = new InfoWindow();
-		//w.infoWindow();
-		//w.showAndWait();
 		try {
-			FXMLLoader loader = new FXMLLoader(MainWindow.class.getResource("/infoWindow.fxml"));
-			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/infoWindow.fxml"));
+		 
     		AnchorPane pane = loader.load();
     	
     		Scene scene = new Scene(pane);
@@ -82,21 +83,17 @@ public class WindowControl{
     		Stage s = new Stage();
     		s.setScene(scene);
     		s.showAndWait();
-    		String str = cont.info;
-    		System.out.println(str);
+    		user = cont.getInfo();
     		
 			
 		}catch(IOException e) {
     		e.printStackTrace();
 		}
 		
-		
-    		
-		
 	}
 	
 	
-	public void handleImport() {
+	public void handleImport() throws IOException {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("DIY", "*.DIY*"));
@@ -105,30 +102,36 @@ public class WindowControl{
 			openFile(f);
 		}
 	}
+	
+	
 	public void handleExport() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("DIY", "*.DIY*"));
 		File f = fileChooser.showSaveDialog(window);
 		if(f != null) {
-			f = new File(f.getAbsolutePath()+".DIY");
-			saveFile("newProj",f);
+			f = new File(f.getAbsolutePath()+ ".DIY");
+			saveFile(user,f);
 		}
 		
 	}
 	private void saveFile(String content, File file){
         try {
-            FileWriter fileWriter = null;
-             
-            fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(file);
+            
             fileWriter.write(content);
             fileWriter.close();
+            
         } catch (IOException ex) {
         	
         }
 	}
 	
-	private void openFile(File file) {
+	private void openFile(File file) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		user = br.readLine();
+		email = br.readLine();
+		br.close();
 		
 	}
 
