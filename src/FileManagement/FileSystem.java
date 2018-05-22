@@ -10,17 +10,46 @@ import java.util.ArrayList;
 import Model.ProjectManager;
 import javafx.stage.FileChooser;
 
+
+
+/**
+ * Takes care of all file operations that the project may need. 
+ * @author Tyler Pitsch
+ * @version 1.0 5/21/18
+ *
+ */
 public class FileSystem {
 
 	private ProjectManager manager;
 	
+	/**
+	 * Default constructor.  Doesn't matter the operation to be performed will hold nothing until
+	 * a later option is chosen.
+	 * @author Tyler Pitsch
+	 */
 	public FileSystem() {
 		manager = new ProjectManager();
 	}
+	
+	
+	/**
+	 * Constructor with the desired projects to save or use.
+	 * 
+	 * @author Tyler Pitsch
+	 * @param manager ProjectManager to be used for file operations.
+	 */
 	public FileSystem(ProjectManager manager) {
 		this.manager = manager;
 	}
 	
+	
+	/**
+	 * Opens a file chooser for the user to select the projects they wish to import.
+	 * 
+	 * @return the projects and settings contained within the file that was chosen.
+	 * @throws IOException
+	 * @author Tyler Pitsch
+	 */
 	public ProjectManager openNewFile() throws IOException {
 		
 		FileChooser fileChooser = new FileChooser();
@@ -32,6 +61,14 @@ public class FileSystem {
 		}
 		return manager;
 	}
+	
+	/**
+	 * Digests the file that was given. Reconstructs the information.
+	 * 
+	 * @author Tyler Pitsch
+	 * @param file the file that needs to be opened.
+	 * @throws IOException
+	 */
 	public void openFile(File file) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String user = "";
@@ -45,6 +82,13 @@ public class FileSystem {
 		br.close();
 		
 	}
+	
+	
+	/**
+	 * Opens a file chooser for the user to save the current projects and settings.
+	 * 
+	 * @author Tyler Pitsch 
+	 */
 	public void saveCurrent() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Save DIY File");
@@ -57,6 +101,13 @@ public class FileSystem {
 		
 	}
 	
+	
+	/**
+	 * Once the file has been chosen to save it will save all the infromation to that chosen file.
+	 * 
+	 * @author Tyler Pitsch
+	 * @param file the file to save all the information to.
+	 */
 	private void saveFile(File file){
         try {
             FileWriter fileWriter = new FileWriter(file);

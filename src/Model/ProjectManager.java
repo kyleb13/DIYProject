@@ -19,6 +19,13 @@ public class ProjectManager {
 			return projects;
 		} 
 		
+		
+		/**
+		 * Adds the users information to this set of projects.
+		 * 
+		 * @author Tyler Pitsch
+		 * @param user the information about the user to be saved later. 
+		 */
 		public void addUser(String user) {
 			
 			this.name = user.substring(0, user.indexOf("\n")+1);

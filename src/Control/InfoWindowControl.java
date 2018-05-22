@@ -18,21 +18,35 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+
+/**
+ * Controller class for the info window.  Handled by FXML file infoWindow.fxml.
+ * 
+ * @author Tyler Pitsch
+ * @version 1.0 5/21/18
+ *
+ */
 public class InfoWindowControl {
 
-	
-	@FXML private TextField name;
-	@FXML private TextField email;
 	@FXML private Button ok;
 	@FXML private GridPane grid;
 	@FXML private Label errorLabel;
 	
 	private String info = "";
 	
-	
+	/**
+	 * Final actions to be taken by the window before being closed.
+	 * @author Tyler Pitsch
+	 */
 	public void finish() {
         ((Stage) (ok.getScene().getWindow())).close();
 	}
+	
+	/**
+	 * Grabs the name and email the user enters.  If the email the user enters is invaild 
+	 * the error message will be displayed and will continue to wait for valid input.
+	 * @author Tyler Pitsch
+	 */
 	public void post() {
 		ObservableList<Node> l = grid.getChildren();
 		info += ((TextField) l.get(0)).getText();
@@ -43,11 +57,25 @@ public class InfoWindowControl {
 		}
 		errorLabel.setVisible(true);
 	}
+	
+	/**
+	 * Validates the given string using regular expression.
+	 * 
+	 * @author Tyler Pitsch
+	 * @param str the email that needs to be validated
+	 * @return true if the email is valid; here valid means anything that is similar
+	 * to something@website.com
+	 */
 	public boolean validateEmail(String str) {
 		Pattern p = Pattern.compile(".*[0-9]*@.*");
 		Matcher m = p.matcher(str);
 		return m.matches();
 	}
+	/**
+	 * Gives back the info the user typed.
+	 * @return Tyler Pitsch
+	 * @return the string that the user entered.
+	 */
 	public String getInfo() {
 		return info;
 	}
