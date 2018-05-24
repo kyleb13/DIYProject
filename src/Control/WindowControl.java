@@ -139,11 +139,11 @@ public class WindowControl{
 	 * ***************DONT TOUCH THIS OCR CODE, I WILL FIX IT IN A WHILE
 	 */
 	public void handleCopy() {
-		/*
-		File imageFile = new File("C:\\Users\\Ty\\eclipse-workspace\\DIYProject\\SeattleBill.gif");
-        //ITesseract instance = new Tesseract();  // JNA Interface Mapping
-         ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-         instance.setDatapath("C:\\Users\\Ty\\eclipse-workspace\\DIYProject\\tessdata");
+		
+		File imageFile = new File("C:\\Users\\kbev4\\git\\DIYProject\\SeattleBill.gif");
+        ITesseract instance = new Tesseract();  // JNA Interface Mapping
+        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
+        instance.setDatapath("C:\\Users\\kbev4\\git\\DIYProject\\tessdata");
 
         try {
         	
@@ -151,10 +151,10 @@ public class WindowControl{
             //System.out.println(result);
             String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
             int x = Integer.parseInt(thisPeriod);
-            System.out.println(x);
+            System.out.println(result);
         } catch (TesseractException e) {
             System.err.println(e.getMessage());
-        }*/
+        }
         
 
     }
