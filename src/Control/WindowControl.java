@@ -139,11 +139,11 @@ public class WindowControl{
 	 * ***************DONT TOUCH THIS OCR CODE, I WILL FIX IT IN A WHILE
 	 */
 	public void handleCopy() {
-		
-		File imageFile = new File("C:\\Users\\kbev4\\git\\DIYProject\\SeattleBill.gif");
+		//Edited by Kyle: removed hard coded paths
+		File imageFile = new File("SeattleBill.gif");
         ITesseract instance = new Tesseract();  // JNA Interface Mapping
         // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-        instance.setDatapath("C:\\Users\\kbev4\\git\\DIYProject\\tessdata");
+        instance.setDatapath("./tessdata");
 
         try {
         	
