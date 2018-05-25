@@ -159,28 +159,20 @@ public class WindowControl{
 	 * ***************DONT TOUCH THIS OCR CODE, I WILL FIX IT IN A WHILE
 	 * @throws IOException 
 	 */
-	public void handleCopy() throws IOException {
-		
-		File imageFile = new File("C:\\Users\\Ty\\eclipse-workspace\\DIYProject\\SeattleBill.gif");
-        //ITesseract instance = new Tesseract();  // JNA Interface Mapping
-         ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-         instance.setDatapath("C:\\Users\\Ty\\eclipse-workspace\\DIYProject\\tessdata");
-         
-         /*
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/OCRLoading.fxml"));
- 		AnchorPane pane = loader.load();
- 		Scene scene = new Scene(pane);
- 		
- 		OCRControl cont = loader.getController();
- 		
- 		Stage s = new Stage();
- 		window.setScene(scene);
- 		*/
+
+	public void handleCopy() {
+		//Edited by Kyle: removed hard coded paths
+		File imageFile = new File("SeattleBill.gif");
+        ITesseract instance = new Tesseract();  // JNA Interface Mapping
+        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
+        instance.setDatapath("./tessdata");
+
         try {
         	
             String result = instance.doOCR(imageFile);
             String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
             int x = Integer.parseInt(thisPeriod);
+
             String lastPeriod = result.substring(result.indexOf("Same period",1596));
             System.out.println(result);
             if(result.contains("Meter Number: ")) {
@@ -189,8 +181,6 @@ public class WindowControl{
         } catch (TesseractException e) {
             System.err.println(e.getMessage());
         }
- 		
-        
         //window.setScene(windowScene);
     }
 	
