@@ -32,6 +32,8 @@ public class ProjectManager {
 			this.email = user.substring(user.indexOf("\n")+1, user.length());
 			
 		}
+		
+		
 		public String getUser() {
 			return name + email;
 		}

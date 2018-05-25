@@ -37,10 +37,12 @@ public class WindowControl{
 	@FXML private TextField search;
 	private ProjectManager manager;
 	private Stage window;
+	private Scene windowScene;
 	
-	public void makeWindow(Stage window) {
+	public void makeWindow(Stage window,Scene windowScene) {
 		this.window = window;
 		manager = new ProjectManager();
+		this.windowScene = windowScene;
 	}
 	
 	/**
@@ -84,7 +86,7 @@ public class WindowControl{
 	 * information
 	 * @author Tyler Pitsch
 	 */
-	public void handleSettings() {
+	public void handleSettings(){
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/infoWindow.fxml"));
@@ -97,6 +99,7 @@ public class WindowControl{
     		s.setScene(scene);
     		s.showAndWait();
     		manager.addUser(cont.getInfo());
+    		
     		
 			
 		}catch(IOException e) {
@@ -132,31 +135,63 @@ public class WindowControl{
 		
 	}
 	
+	public void handleBill() throws IOException {
+		FileSystem f = new FileSystem();
+		
+		f.getBill();
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/OCRLoading.fxml"));
+ 		AnchorPane pane = loader.load();
+ 		Scene scene = new Scene(pane);
+ 		
+ 		OCRControl cont = loader.getController();
+ 		
+ 		//Stage s = new Stage();
+ 		window.setScene(scene);
+ 		
+ 		
+	}
+	
 	/**
 	 * Makes a copy of the selected projects.
 	 * @author Tyler Pitsch
 	 * 
 	 * ***************DONT TOUCH THIS OCR CODE, I WILL FIX IT IN A WHILE
+	 * @throws IOException 
 	 */
-	public void handleCopy() {
-		/*
+	public void handleCopy() throws IOException {
+		
 		File imageFile = new File("C:\\Users\\Ty\\eclipse-workspace\\DIYProject\\SeattleBill.gif");
         //ITesseract instance = new Tesseract();  // JNA Interface Mapping
          ITesseract instance = new Tesseract1(); // JNA Direct Mapping
          instance.setDatapath("C:\\Users\\Ty\\eclipse-workspace\\DIYProject\\tessdata");
-
+         
+         /*
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/OCRLoading.fxml"));
+ 		AnchorPane pane = loader.load();
+ 		Scene scene = new Scene(pane);
+ 		
+ 		OCRControl cont = loader.getController();
+ 		
+ 		Stage s = new Stage();
+ 		window.setScene(scene);
+ 		*/
         try {
         	
             String result = instance.doOCR(imageFile);
-            //System.out.println(result);
             String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
             int x = Integer.parseInt(thisPeriod);
-            System.out.println(x);
+            String lastPeriod = result.substring(result.indexOf("Same period",1596));
+            System.out.println(result);
+            if(result.contains("Meter Number: ")) {
+            	System.out.println("valid bill");
+            }
         } catch (TesseractException e) {
             System.err.println(e.getMessage());
-        }*/
+        }
+ 		
         
-
+        //window.setScene(windowScene);
     }
 	
 }

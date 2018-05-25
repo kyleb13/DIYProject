@@ -28,7 +28,7 @@ public class FileSystem {
 	 * @author Tyler Pitsch
 	 */
 	public FileSystem() {
-		manager = new ProjectManager();
+		
 	}
 	
 	
@@ -42,6 +42,16 @@ public class FileSystem {
 		this.manager = manager;
 	}
 	
+	public File getBill() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open DIY File");
+		//fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter(".jpg", "*.DIY*"));
+		File f = fileChooser.showOpenDialog(null);
+		
+		
+		return f;
+	}
+	
 	
 	/**
 	 * Opens a file chooser for the user to select the projects they wish to import.
@@ -51,7 +61,7 @@ public class FileSystem {
 	 * @author Tyler Pitsch
 	 */
 	public ProjectManager openNewFile() throws IOException {
-		
+		manager = new ProjectManager();
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open DIY File");
 		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("DIY", "*.DIY*"));
@@ -103,7 +113,7 @@ public class FileSystem {
 	
 	
 	/**
-	 * Once the file has been chosen to save it will save all the infromation to that chosen file.
+	 * Once the file has been chosen to save it will save all the information to that chosen file.
 	 * 
 	 * @author Tyler Pitsch
 	 * @param file the file to save all the information to.

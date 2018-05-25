@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control.OCRControl">
+   <children>
+      <ProgressBar fx:id="progBar" layoutX="207.0" layoutY="228.0" onMouseClicked="#handleProgBar" prefWidth="200.0" progress="0.0" />
+      <ImageView fx:id="img" fitHeight="150.0" fitWidth="200.0" layoutX="256.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../giphy.gif" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
