@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -38,6 +39,7 @@ public class WindowControl{
 	private ProjectManager manager;
 	private Stage window;
 	private Scene windowScene;
+	@FXML private Button newProject;
 	
 	public void makeWindow(Stage window,Scene windowScene) {
 		this.window = window;
@@ -133,6 +135,27 @@ public class WindowControl{
 		sys.saveCurrent();
 		
 		
+	}
+	/**
+	 * @author Reza Amjad
+	 * This function will open a new window so user can create a new project
+	 */
+	@FXML
+	private void handelNewProject() {
+		try {
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("/CreateNewProject.fxml"));
+            AnchorPane Ap =  loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Create Project");
+            Scene window = new Scene(Ap);
+            stage.setScene(window);
+            stage.show();
+            // Hide this current window (if this is what you want)
+           //(((Node) event.getSource())).getScene().getWindow().hide();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public void handleBill() throws IOException {
