@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="423.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control.startProjectControl">
+   <children>
+      <Button fx:id="cancel" layoutX="202.0" layoutY="256.0" mnemonicParsing="false" onAction="#handelCancelButtonAction" text="Cancel" />
+      <Button fx:id="finish" layoutX="296.0" layoutY="256.0" mnemonicParsing="false" onAction="#handelFinishButtonAction" text="Finish" />
+      <GridPane fx:id="grid" alignment="CENTER" layoutX="153.0" layoutY="162.0" prefHeight="38.0" prefWidth="294.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TextField fx:id="text" prefHeight="31.0" prefWidth="190.0" GridPane.columnIndex="1" />
+            <Label prefHeight="29.0" text="Project Name" textAlignment="CENTER" />
+         </children>
+      </GridPane>
+      <Label fx:id="errorLabel" layoutX="316.0" layoutY="222.0" prefHeight="21.0" prefWidth="90.0" text="Invalid Input" textAlignment="CENTER" textFill="#eb0a07" visible="false" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="186.0" />
+   </children>
+</AnchorPane>
