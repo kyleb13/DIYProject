@@ -83,8 +83,16 @@ public class ProjectManager {
 			this.myEmail = user.substring(user.indexOf("\n")+1, user.length());
 			
 		}
+		
 		public String getUser() {
 			return myName + myEmail;
 		}
-		
+		/**
+		 * Return the name.
+		 * @author Emmett Kang
+		 * @return name of the project manager
+		 */
+		public String getUserName() {
+			return myName;
+		}
 }
