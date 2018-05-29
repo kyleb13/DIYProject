@@ -38,7 +38,6 @@ public class startProjectControl {
     @FXML
     void handelCancelButtonAction() {
     	((Stage)(cancel.getScene().getWindow())).close();
-
     }
 
     @FXML
