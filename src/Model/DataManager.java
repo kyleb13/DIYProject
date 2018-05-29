@@ -18,8 +18,10 @@ public class DataManager {
 	 * @param PM project manager that contains the projects.
 	 * @throws IOException If it fails to open, well, it will throw stuff at you.
 	 */
-	public void storeProjects(ProjectManager PM) throws IOException {
-		File file = new File(PM.getUser()+".txt");
+	public static void storeProjects(ProjectManager PM) throws IOException {
+		String name = PM.getUserEmail()+".txt";
+		System.out.println(name);
+		File file = new File(name);
 		FileWriter filewriter = new FileWriter(file);
 
 		ArrayList<Project> ProjectList = PM.getmyProjects();
@@ -44,7 +46,7 @@ public class DataManager {
 	 * @return ProjectManager object that contains retrieved projects.
 	 * @throws IOException If the file cannot be found(I.E there's no project manager for the user), throw stuff. 
 	 */
-	public ProjectManager retrieveProjects(String userinfo) throws IOException {
+	public static ProjectManager retrieveProjects(String userinfo) throws IOException {
 		//ProjectManager to be returned after populating with project.
 		ProjectManager retrieved = new ProjectManager();
 		String projectString = "";
@@ -81,23 +83,25 @@ public class DataManager {
 		return retrieved;
 	}
 	
-	/*	
-	public static void storeProjects(String s1, String s2) throws IOException {
-			File file = new File(s1 + ".txt");
-			FileWriter filewriter = new FileWriter(file);
-	
-			filewriter.write(s2 + "'s projects");
-			filewriter.flush();
-			filewriter.close();
-			System.out.println("Yo");	
-		}*/
-	/*
+
+
 		public static void main(String[] args) throws IOException {
-			storeProjects("emmettkang", "Emmett Kang");
-			  
+			ProjectManager pm = new ProjectManager();
+			pm.addUser("emmettkang\nelk9516");
+			Project p1 = new Project("Mercury", "Emmett1", 36000,12);
+			pm.addProject(p1);
+			storeProjects(pm);
+			ProjectManager newpm = retrieveProjects("elk9516");
+			ArrayList<Project> list = newpm.getmyProjects();
+			for (int i = 0; i< list.size(); i++) {
+				System.out.println(list.get(i).getName());
+				System.out.println(list.get(i).getType());
+				System.out.println(list.get(i).getCost());
+				System.out.println(list.get(i).getHours());
+			}
 		
 		}
-		*/
+		
 		
 		
 

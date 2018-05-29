@@ -95,4 +95,8 @@ public class ProjectManager {
 		public String getUserName() {
 			return myName;
 		}
+		public String getUserEmail() {
+			return myEmail;
+		}
+
 }
