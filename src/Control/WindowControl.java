@@ -160,23 +160,45 @@ public class WindowControl{
 	
 	public void handleBill() throws IOException {
 		FileSystem f = new FileSystem();
-		f.getBill();
+		
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/OCRLoading.fxml"));
  		AnchorPane pane = loader.load();
  		Scene scene = new Scene(pane);
  		
- 		OCRControl cont = loader.getController();
- 		
- 		//Stage s = new Stage();
  		window.setScene(scene);
  		
  		
-	}
-	public void dead() {
-		//dead method
-	}
+ 		OCRControl cont = loader.getController();
+ 		
+ 		File file = f.getBill();
+ 		//Stage s = new Stage();
+ 		if(file != null) {
+	 		ITesseract instance = new Tesseract();  // JNA Interface Mapping
+	        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
+	        instance.setDatapath("./tessdata");
 	
+	        try {
+	        	
+	            String result = instance.doOCR(file);
+	            //String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
+	            //int x = Integer.parseInt(thisPeriod);
+	
+	            //String lastPeriod = result.substring(result.indexOf("Same period",1596));
+	            //System.out.println(result);
+	            if(result.contains("Meter Number: ")) {
+	            	System.out.println("valid bill");
+	            }else {
+	            	System.out.println("invalid bill");
+	            }
+	        } catch (TesseractException e) {
+	            System.err.println(e.getMessage());
+	        }
+ 		}
+ 		window.setScene(windowScene);
+ 		
+ 		
+	}
 	/**
 	 * Makes a copy of the selected projects.
 	 * @author Tyler Pitsch
@@ -186,27 +208,7 @@ public class WindowControl{
 	 */
 
 	public void handleCopy() {
-		//Edited by Kyle: removed hard coded paths
-		File imageFile = new File("SeattleBill.gif");
-        ITesseract instance = new Tesseract();  // JNA Interface Mapping
-        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-        instance.setDatapath("./tessdata");
-
-        try {
-        	
-            String result = instance.doOCR(imageFile);
-            String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
-            int x = Integer.parseInt(thisPeriod);
-
-            String lastPeriod = result.substring(result.indexOf("Same period",1596));
-            System.out.println(result);
-            if(result.contains("Meter Number: ")) {
-            	System.out.println("valid bill");
-            }
-        } catch (TesseractException e) {
-            System.err.println(e.getMessage());
-        }
-        //window.setScene(windowScene);
+        
     }
 	
 }

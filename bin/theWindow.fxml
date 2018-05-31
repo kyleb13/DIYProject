@@ -34,6 +34,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#handleSettings" text="Settings" />
                   <MenuItem mnemonicParsing="false" onAction="#handleExport" text="Export" />
                   <MenuItem mnemonicParsing="false" onAction="#handleImport" text="Import" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleBill" text="Import Bill" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Help">
