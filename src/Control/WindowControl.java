@@ -160,7 +160,6 @@ public class WindowControl{
 	
 	public void handleBill() throws IOException {
 		FileSystem f = new FileSystem();
-		
 		f.getBill();
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/OCRLoading.fxml"));
@@ -173,6 +172,9 @@ public class WindowControl{
  		window.setScene(scene);
  		
  		
+	}
+	public void dead() {
+		//dead method
 	}
 	
 	/**
