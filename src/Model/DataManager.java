@@ -1,3 +1,4 @@
+
 package Model;
 
 import java.io.BufferedReader;
@@ -101,8 +102,7 @@ public class DataManager {
 			}
 		
 		}
-		
-		
-		
-
 }
+		
+		
+		
