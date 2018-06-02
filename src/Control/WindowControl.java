@@ -7,8 +7,10 @@ import java.util.Optional;
 
 import FileManagement.FileSystem;
 import Model.ProjectManager;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
@@ -40,7 +43,9 @@ public class WindowControl{
 	private Stage window;
 	@FXML
 	private Button newProject;
-	
+	@FXML private GridPane grid; 
+	private int numOfRow = 2;
+	private final int numOfColumn = 2;
 	public void makeWindow(Stage window) {
 		this.window = window;
 		manager = new ProjectManager();
@@ -148,13 +153,60 @@ public class WindowControl{
             Scene window = new Scene(Ap);
             stage.setScene(window);
             stage.show();
-            // Hide this current window (if this is what you want)
-           //(((Node) event.getSource())).getScene().getWindow().hide();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 	}
+	
+	
+	
+	public void add_project_to_main_window(String name) {
+	
+		int row = 0;
+		int column = 0;
+		Button button = new Button(name);
+		button.setVisible(true);
+		 setupNewProjectWindow(button);
+		
+		if(column> numOfColumn ) {
+			if(row > numOfRow) {
+				grid.addRow(numOfRow +=1,button);
+				column = 0;
+			} else {
+				column = 0;
+				row++;
+				//GridPane.setConstraints(button,column, row);
+				grid.add(button,column, row);
+			}
+		}else {
+			//GridPane.setConstraints(button,column,row);
+			grid.add(button,column, row);
+			
+			column++;
+		}	
+	}
+	
+	
+	private void setupNewProjectWindow(Button button) {	
+		
+		System.out.println(button.getText());
+    	button.setOnAction(e->{
+    		 try {
+    	            FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
+    	            AnchorPane Ap =  loader.load();
+    	            Stage stage = new Stage();
+    	            stage.setTitle(button.getText());
+    	            Scene window = new Scene(Ap);
+    	            stage.setScene(window);
+    	            stage.show();
+    	        }
+    	        catch (IOException e1) {
+    	            e1.printStackTrace();
+    	       }
+    	    
+    	});
+    }   
 	
 	/**
 	 * Makes a copy of the selected projects.
