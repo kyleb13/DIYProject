@@ -2,6 +2,8 @@ package Model;
 
 import java.util.ArrayList;
 
+import javafx.scene.control.Button;
+
 public class Project {
 	private String myType;
 	private String myName;
@@ -21,9 +23,10 @@ public class Project {
 	
 	/*
 	 * @author Kyle Beveridge
+	 * edited by Reza
 	 * */
-	public Project() {
-		this("Uninitialized", "None", 0, 0);
+	public Project(String theName) {
+		this(theName, "None", 0, 0);
 	}
 	
 	/*

@@ -16,6 +16,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -43,9 +46,12 @@ public class WindowControl{
 	private Stage window;
 	@FXML
 	private Button newProject;
-	@FXML private GridPane grid; 
-	private int numOfRow = 2;
-	private final int numOfColumn = 2;
+	@FXML public GridPane gp; 
+	private int numOfRow = 0;
+	private int numOfColumn = 0;
+	private startProjectControl spc;
+	
+	
 	public void makeWindow(Stage window) {
 		this.window = window;
 		manager = new ProjectManager();
@@ -159,54 +165,41 @@ public class WindowControl{
         }
 	}
 	
-	
-	
-	public void add_project_to_main_window(String name) {
-	
-		int row = 0;
-		int column = 0;
-		Button button = new Button(name);
-		button.setVisible(true);
-		 setupNewProjectWindow(button);
-		
-		if(column> numOfColumn ) {
-			if(row > numOfRow) {
-				grid.addRow(numOfRow +=1,button);
-				column = 0;
-			} else {
-				column = 0;
-				row++;
-				//GridPane.setConstraints(button,column, row);
-				grid.add(button,column, row);
-			}
-		}else {
-			//GridPane.setConstraints(button,column,row);
-			grid.add(button,column, row);
-			
-			column++;
+	/**
+	 * @author Reza Amjad
+	 * will add all the existing project to the main window 
+	 */
+	public void LoadProjectsToGrid() {
+		for(int i = 0; i < manager.getmyProjects().size();i++) {
+			add_project_to_Grid(
+					spc.create_button(manager.getmyProjects().get(i).getName()));
 		}	
 	}
 	
+	/**
+	 * 
+	 * @param button
+	 * will add the projects to the grid on the main window
+	 * @param button to represent a project.
+	 * by clicking the button user can open the project
+	 */
+  public void add_project_to_Grid(Button button) {
 	
-	private void setupNewProjectWindow(Button button) {	
+	int row = 0;
+	int column = 0;
+	button.setVisible(true);
+	if(column> numOfColumn ) {
+		if(row > numOfRow) {
+			
+			gp.addRow(numOfRow +=1,button);
+			column = 0;	
+		}
+	}else {
 		
-		System.out.println(button.getText());
-    	button.setOnAction(e->{
-    		 try {
-    	            FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
-    	            AnchorPane Ap =  loader.load();
-    	            Stage stage = new Stage();
-    	            stage.setTitle(button.getText());
-    	            Scene window = new Scene(Ap);
-    	            stage.setScene(window);
-    	            stage.show();
-    	        }
-    	        catch (IOException e1) {
-    	            e1.printStackTrace();
-    	       }
-    	    
-    	});
-    }   
+		gp.add(button,column,row);
+		column++;
+	}	
+}
 	
 	/**
 	 * Makes a copy of the selected projects.
@@ -231,8 +224,13 @@ public class WindowControl{
         } catch (TesseractException e) {
             System.err.println(e.getMessage());
         }
-        
-
     }
+	
+	
+	public void load_existing_projectsToGrid() {
+		for(int i = 0; i < manager.getmyProjects().size();i++) {
+			
+		}
+	}
 	
 }
