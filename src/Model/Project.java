@@ -11,6 +11,8 @@ public class Project {
 	private ArrayList<String> myMaterials;
 	private int myHours;
 	
+	private Button myButton;
+	
 	/*
 	 * @author Kyle Beveridge
 	 * */
@@ -19,6 +21,7 @@ public class Project {
 		myName = theName;
 		myCost = theCost;
 		myHours = theHours;
+
 	}
 	
 	/*
@@ -27,6 +30,7 @@ public class Project {
 	 * */
 	public Project(String theName) {
 		this(theName, "None", 0, 0);
+		
 	}
 	
 	/*
@@ -116,4 +120,12 @@ public class Project {
 	public void setHours(int myHours) {
 		this.myHours = myHours;
 	}
+	
+	public Button getButton() {
+        return myButton;
+    }
+ 
+    public void setRemark(Button theButton) {
+        this.myButton = theButton;
+    }
 }

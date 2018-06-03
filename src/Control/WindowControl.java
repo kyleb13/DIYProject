@@ -2,14 +2,18 @@ package Control;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import FileManagement.FileSystem;
+import Model.Project;
 import Model.ProjectManager;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,6 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +43,7 @@ import net.sourceforge.tess4j.TesseractException;
  * @version 1.0 5/21/18
  *
  */
-public class WindowControl{
+public class WindowControl implements Initializable{
 	
 	@FXML private AnchorPane theInfo;
 	@FXML private TextField search;
@@ -50,6 +55,12 @@ public class WindowControl{
 	private int numOfRow = 0;
 	private int numOfColumn = 0;
 	private startProjectControl spc;
+	
+	
+	@FXML 
+   //TableView<Project> table;    
+   Project project;
+   ObservableList<Project> data;
 	
 	
 	public void makeWindow(Stage window) {
@@ -165,16 +176,15 @@ public class WindowControl{
         }
 	}
 	
-	/**
-	 * @author Reza Amjad
-	 * will add all the existing project to the main window 
-	 */
-	public void LoadProjectsToGrid() {
-		for(int i = 0; i < manager.getmyProjects().size();i++) {
-			add_project_to_Grid(
-					spc.create_button(manager.getmyProjects().get(i).getName()));
-		}	
-	}
+//	/**
+//	 * @author Reza Amjad
+//	 * will add all the existing project to the main window 
+//	 */
+//	public void LoadProjectsToGrid() {
+//		for(int i = 0; i < manager.getmyProjects().size();i++) {
+//			add_project_to_Grid(create_button(manager.getmyProjects().get(i).getName()));
+//		}	
+//	}
 	
 	/**
 	 * 
@@ -201,6 +211,43 @@ public class WindowControl{
 	}	
 }
 	
+   public Button create_button(String name) {	
+			
+			Button button = new Button(name);
+			System.out.println(button.getText());
+	    	button.setOnAction(e->{
+	    		 try {
+	    	            FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
+	    	            AnchorPane Ap =  loader.load();
+	    	            Stage stage = new Stage();
+	    	            Scene window = new Scene(Ap);
+	    	            stage.setScene(window);
+	    	            stage.show();
+	    	        }
+	    	        catch (IOException e1) {
+	    	            e1.printStackTrace();
+	    	       }
+	    	    
+	    	});
+	    	return button;
+ }   
+  
+  @Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+	  
+	  data = FXCollections.observableArrayList(new Project("Project1"),
+		    new Project("Project2"),
+		    new Project("Project3"));
+	  for(int i = 0; i < data.size();i++) {
+		add_project_to_Grid(create_button(data.get(i).getName()));
+	  }    
+//	    if(manager.getmyProjects() != null) {
+//	    	data = FXCollections.observableArrayList(manager.getmyProjects());
+//	    	for(int i = 0; i < data.size();i++) {
+//				add_project_to_Grid(create_button(data.get(i).getName()));
+//		    }    
+//	    }  	
+	}
 	/**
 	 * Makes a copy of the selected projects.
 	 * @author Tyler Pitsch
@@ -227,10 +274,8 @@ public class WindowControl{
     }
 	
 	
-	public void load_existing_projectsToGrid() {
-		for(int i = 0; i < manager.getmyProjects().size();i++) {
-			
-		}
-	}
+	
+
+	
 	
 }

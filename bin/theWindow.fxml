@@ -31,18 +31,17 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="newProject" layoutX="88.0" layoutY="324.0" mnemonicParsing="false" onAction="#handelNewProject" text="New Project" />
-      <ScrollPane layoutX="370.0" layoutY="32.0" prefHeight="365.0" prefWidth="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="370.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+      <Button fx:id="newProject" layoutX="66.0" layoutY="324.0" mnemonicParsing="false" onAction="#handelNewProject" text="New Project" />
+      <ScrollPane layoutX="440.0" layoutY="32.0" prefHeight="367.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="440.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
          <content>
-            <GridPane fx:id="gp" prefHeight="91.0" prefWidth="231.0">
+            <GridPane fx:id="gp" alignment="CENTER" prefHeight="39.0" prefWidth="159.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-         </content>
-      </ScrollPane>
+         </content></ScrollPane>
    </children>
 </AnchorPane>
