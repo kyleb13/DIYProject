@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.collections.ObservableList;
+
 //To-do: Iterate through list of projects and store them into text file.
 //To-do: Think about how to store: text file perhaps?
 public class DataManager {
@@ -25,7 +27,7 @@ public class DataManager {
 		File file = new File(name);
 		FileWriter filewriter = new FileWriter(file);
 
-		ArrayList<Project> ProjectList = PM.getmyProjects();
+		ArrayList<Project> ProjectList = (ArrayList<Project>) PM.getmyProjects();
 		//Get the projects from the list, store them by attributes into text file.
 		for (int i = 0; i < ProjectList.size(); i++) {
 			Project project = ProjectList.get(i);
@@ -85,7 +87,6 @@ public class DataManager {
 	}
 	
 
-
 		public static void main(String[] args) throws IOException {
 			ProjectManager pm = new ProjectManager();
 			pm.addUser("emmettkang\nelk9516");
@@ -93,7 +94,7 @@ public class DataManager {
 			pm.addProject(p1);
 			storeProjects(pm);
 			ProjectManager newpm = retrieveProjects("elk9516");
-			ArrayList<Project> list = newpm.getmyProjects();
+			ObservableList<Project> list = newpm.getmyProjects();
 			for (int i = 0; i< list.size(); i++) {
 				System.out.println(list.get(i).getName());
 				System.out.println(list.get(i).getType());
@@ -102,7 +103,7 @@ public class DataManager {
 			}
 		
 		}
+	
+		
+
 }
-		
-		
-		
