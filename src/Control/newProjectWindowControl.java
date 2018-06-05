@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Model.Project;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -43,6 +44,8 @@ public class newProjectWindowControl {
 	private double projectHeight;
 	private double projectWidth;
 	private double projectDepth;
+	
+	private Project project;
 	
 	 
 	 @FXML
@@ -104,6 +107,7 @@ public class newProjectWindowControl {
 		checkHeight();
 		checkWidth();
 		checkDepth();
+		
 	}
 	
 	@FXML
@@ -118,4 +122,9 @@ public class newProjectWindowControl {
 	private void cancelClicked() {
 		((Stage)(cancel.getScene().getWindow())).close();
 	}
+	
+	public void addProject(Project theProject) {
+		project = theProject;
+	}
+	
 }

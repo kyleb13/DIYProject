@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 
 public class Project {
@@ -10,7 +11,6 @@ public class Project {
 	private int myCost;
 	private ArrayList<String> myMaterials;
 	private int myHours;
-	
 	private Button myButton;
 	
 	/*
@@ -21,6 +21,7 @@ public class Project {
 		myName = theName;
 		myCost = theCost;
 		myHours = theHours;
+		myMaterials = new ArrayList<String>();
 
 	}
 	
@@ -59,10 +60,10 @@ public class Project {
 	}
 	
 
-	public void setMaterials(ArrayList<String> theMaterials) {
-		myMaterials.addAll(theMaterials);
-		//this will likely need to be a deep copy once
-		//the material class is made
+	public void setMaterials(ObservableList<Material> theMaterials) {
+		for (int i = 0; i < theMaterials.size(); i++) {
+			myMaterials.add(theMaterials.get(i).getName());
+		}
 	} 
 	
 	/*

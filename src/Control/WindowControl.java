@@ -306,7 +306,8 @@ public class WindowControl /*implements Initializable*/{
             Scene window = new Scene(Ap);
             stage.setScene(window);
             //uncomment next line if you want to pass something to the controller class
-            //newProjectWindowControl controller = loader.getController();
+            newProjectWindowControl controller = loader.getController();
+            //controller.addProject(theProject);
             stage.show();
         }
         catch (IOException e) {
