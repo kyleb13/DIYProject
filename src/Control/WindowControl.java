@@ -2,21 +2,41 @@ package Control;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import FileManagement.FileSystem;
+import Model.Project;
 import Model.ProjectManager;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Tesseract1;
@@ -32,22 +52,42 @@ import net.sourceforge.tess4j.TesseractException;
  * @version 1.0 5/21/18
  *
  */
-public class WindowControl{
+public class WindowControl /*implements Initializable*/{
 	
 	@FXML private AnchorPane theInfo;
 	@FXML private TextField search;
 	private ProjectManager manager;
 	private Stage window;
 	@FXML
-	private Button newProject;
+	//private Button newProject;
+	private ImageView newProject;
+	@FXML 
+	public GridPane gp; 
+	@FXML 
+	public GridPane projectGrid;
+	private startProjectControl spc;
+	private int nextX;
+	private int nextY;
+	
+	
+	@FXML 
+   //TableView<Project> table;    
+   Project project;
+   ObservableList<Project> data;
+	
 	
 	public void makeWindow(Stage window) {
 		this.window = window;
 		manager = new ProjectManager();
+		data = manager.getmyProjects();
+		newProject.setImage(new Image("/icons/square_plus.png"));
+		data.addListener(new ProjectListListener());//this listener class is at the bottom
+		nextX = 1;
+		nextY = 0;
 	}
 	
 	/**
-	 * Takes care of the file/exit option.  Pops up a box to confirm or cancel exiting the program. 
+	 * Takes care of the file/exit option.  Pops up a box  to confirm or cancel exiting the program. 
 	 * @author Tyler Pitsch
 	 */
 	public void handleExitButton() {
@@ -147,15 +187,88 @@ public class WindowControl{
             stage.setTitle("Create Project");
             Scene window = new Scene(Ap);
             stage.setScene(window);
+            //(Edited by Kyle) passed reference to project manager to controller class of new window
+            startProjectControl controller = loader.getController();
+            controller.addPM(manager);
             stage.show();
-            // Hide this current window (if this is what you want)
-           //(((Node) event.getSource())).getScene().getWindow().hide();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 	}
 	
+//	/**
+//	 * @author Reza Amjad
+//	 * will add all the existing project to the main window 
+//	 */
+//	public void LoadProjectsToGrid() {
+//		for(int i = 0; i < manager.getmyProjects().size();i++) {
+//			add_project_to_Grid(create_button(manager.getmyProjects().get(i).getName()));
+//		}	
+//	}
+	
+	/**
+	 * 
+	 * @param button
+	 * will add the projects to the grid on the main window
+	 * @param button to represent a project.
+	 * by clicking the button user can open the project
+	 */
+  /*public void add_project_to_Grid(Button button) {
+	
+	int row = 0;
+	int column = 0;
+	button.setVisible(true);
+	if(column> numOfColumn ) {
+		if(row > numOfRow) {
+			
+			gp.addRow(numOfRow +=1,button);
+			column = 0;	
+		}
+	}else {
+		
+		gp.add(button,column,row);
+		column++;
+	}	
+}
+	
+   public Button create_button(String name) {	
+			
+			Button button = new Button(name);
+			System.out.println(button.getText());
+	    	button.setOnAction(e->{
+	    		 try {
+	    	            FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
+	    	            AnchorPane Ap =  loader.load();
+	    	            Stage stage = new Stage();
+	    	            Scene window = new Scene(Ap);
+	    	            stage.setScene(window);
+	    	            stage.show();
+	    	        }
+	    	        catch (IOException e1) {
+	    	            e1.printStackTrace();
+	    	       }
+	    	    
+	    	});
+	    	return button;
+ }   
+  
+  @Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+	  
+	  data = FXCollections.observableArrayList(new Project("Project1"),
+		    new Project("Project2"),
+		    new Project("Project3"));
+	  for(int i = 0; i < data.size();i++) {
+		add_project_to_Grid(create_button(data.get(i).getName()));
+	  }    
+//	    if(manager.getmyProjects() != null) {
+//	    	data = FXCollections.observableArrayList(manager.getmyProjects());
+//	    	for(int i = 0; i < data.size();i++) {
+//				add_project_to_Grid(create_button(data.get(i).getName()));
+//		    }    
+//	    }  	
+	}*/
 	/**
 	 * Makes a copy of the selected projects.
 	 * @author Tyler Pitsch
@@ -179,8 +292,55 @@ public class WindowControl{
         } catch (TesseractException e) {
             System.err.println(e.getMessage());
         }
-        
-
     }
 	
+	/*
+	 * @author Kyle Beveridge
+	 * */
+	public void handleOpenProject(Project theProject) {
+		try {
+            FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
+            AnchorPane Ap =  loader.load();
+            Stage stage = new Stage();
+            stage.setTitle(theProject.getName());
+            Scene window = new Scene(Ap);
+            stage.setScene(window);
+            //uncomment next line if you want to pass something to the controller class
+            //newProjectWindowControl controller = loader.getController();
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	/*@author Kyle Beveridge
+	 * 
+	 * */
+	private class ProjectListListener implements ListChangeListener<Project>{
+		@Override
+		public void onChanged(Change<? extends Project> c) {
+			while(c.next()) {
+				if(c.wasAdded()) {
+					for(Project p:c.getAddedSubList()) {
+						ImageView newpj = new ImageView("/icons/notype.png");
+						Label name = new Label(p.getName());
+						newpj.setFitWidth(50);
+						newpj.setFitHeight(50);
+						newpj.setOnMouseClicked(e -> handleOpenProject(p));
+						VBox b = new VBox();
+						b.setAlignment(Pos.TOP_CENTER);
+						b.getChildren().addAll(newpj, name);
+						VBox.setMargin(newpj, new Insets(10, 0, 0, 0));
+						projectGrid.add(b, nextX, nextY);
+						nextX = nextX+1<4 ? nextX+1:0;
+						nextY = nextX == 0 ? nextY+1:nextY;
+					}
+				}
+			}
+			
+		}
+
+
+	}
 }

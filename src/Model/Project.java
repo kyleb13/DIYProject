@@ -2,12 +2,16 @@ package Model;
 
 import java.util.ArrayList;
 
+import javafx.scene.control.Button;
+
 public class Project {
 	private String myType;
 	private String myName;
 	private int myCost;
 	private ArrayList<String> myMaterials;
 	private int myHours;
+	
+	private Button myButton;
 	
 	/*
 	 * @author Kyle Beveridge
@@ -17,13 +21,16 @@ public class Project {
 		myName = theName;
 		myCost = theCost;
 		myHours = theHours;
+
 	}
 	
 	/*
 	 * @author Kyle Beveridge
+	 * edited by Reza
 	 * */
-	public Project() {
-		this("Uninitialized", "None", 0, 0);
+	public Project(String theName) {
+		this("None", theName, 0, 0);
+		
 	}
 	
 	/*
@@ -113,4 +120,12 @@ public class Project {
 	public void setHours(int myHours) {
 		this.myHours = myHours;
 	}
+	
+	public Button getButton() {
+        return myButton;
+    }
+ 
+    public void setRemark(Button theButton) {
+        this.myButton = theButton;
+    }
 }
