@@ -8,9 +8,7 @@
 <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Control.OCRControl">
    <children>
       <Label fx:id="loading" layoutX="208.0" layoutY="149.0" text="Loading Bill Please Wait" />
-      <Button fx:id="retry" layoutX="314.0" layoutY="215.0" mnemonicParsing="false" text="Retry" visible="false" />
       <Button fx:id="ok" layoutX="314.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleValidBill" text="OK" visible="false" />
-      <Button fx:id="exit" layoutX="189.0" layoutY="215.0" mnemonicParsing="false" onAction="#handleExit" text="Exit" visible="false" />
       <Label fx:id="errorLabel" layoutX="172.0" layoutY="106.0" prefHeight="21.0" prefWidth="230.0" text="Error Loading Bill Please Try Again" textFill="RED" visible="false" />
    </children>
 </AnchorPane>

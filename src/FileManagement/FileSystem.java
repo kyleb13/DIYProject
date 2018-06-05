@@ -82,9 +82,10 @@ public class FileSystem {
 	public void openFile(File file) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		String user = "";
+		int meterNum = 0; 
 		user += br.readLine();
 		user += br.readLine();
-		manager.addUser(user);
+		manager.addUser(user,meterNum);
 		String line = br.readLine();
 			while (line != null) {
 			    line = br.readLine();

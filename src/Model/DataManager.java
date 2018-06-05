@@ -86,7 +86,7 @@ public class DataManager {
 		return retrieved;
 	}
 	
-
+/*
 		public static void main(String[] args) throws IOException {
 			ProjectManager pm = new ProjectManager();
 			pm.addUser("emmettkang\nelk9516");
@@ -104,6 +104,6 @@ public class DataManager {
 		
 		}
 	
-		
+		*/
 
 }

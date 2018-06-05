@@ -2,44 +2,30 @@ package Control;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
-
 import FileManagement.FileSystem;
 import Model.Project;
 import Model.ProjectManager;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.Tesseract1;
 import net.sourceforge.tess4j.TesseractException;
 
 
@@ -52,7 +38,7 @@ import net.sourceforge.tess4j.TesseractException;
  * @version 1.0 5/21/18
  *
  */
-public class WindowControl /*implements Initializable*/{
+public class WindowControl{
 	
 	@FXML private AnchorPane theInfo;
 	@FXML private TextField search;
@@ -141,7 +127,7 @@ public class WindowControl /*implements Initializable*/{
     		Stage s = new Stage();
     		s.setScene(scene);
     		s.showAndWait();
-    		manager.addUser(cont.getInfo());
+    		manager.addUser(cont.getInfo(),cont.getMeterNumber());
     		
     		
 			
@@ -200,127 +186,64 @@ public class WindowControl /*implements Initializable*/{
         }
 	}
 	
-
+/**
+ * OCR for user to enter their electric bills, most operations are handeled on the back by
+ * Tesseract but the information and saving of information is handeled here and in Project Manager
+ * @author Tyler Pitsch
+ * @throws IOException bad files
+ */
 	public void handleBill() throws IOException {
+		
 		FileSystem f = new FileSystem();
-		
-		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/OCRLoading.fxml"));
- 		AnchorPane pane = loader.load();
- 		Scene scene = new Scene(pane);
  		
- 		window.setScene(scene);
- 		
- 		
- 		OCRControl cont = loader.getController();
- 		
- 		File file = f.getBill();
+ 		File file = f.getBill();//grabs the bill the user wants to import
+ 		//if the files is null then we can just terminate
  		if(file != null) {
 	 		ITesseract instance = new Tesseract();  // JNA Interface Mapping
 	        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
 	        instance.setDatapath("./tessdata");
 	
+	        //attempt to do OCR on the given file
 	        try {
 	        	
 	            String result = instance.doOCR(file);
 	            try {
+	            	//from the generated string grab the important information
+	            	int meterNumber = Integer.parseInt(result.substring(result.indexOf("Meter Number: ")+14,result.indexOf("Meter Number: " )+21));
 		            String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
+		           
+		            //depending on the information we can upload or throw out the information
 		            int x = Integer.parseInt(thisPeriod);
-		            System.out.println(result);
-		            if(result.contains("Meter Number: ")) {
-		            	System.out.println("valid bill");
+		            if(manager.getMeterNumber() != meterNumber) {
+		            	Alert alert = new Alert(AlertType.INFORMATION);
+		        		alert.setTitle("This bill is invalid for the current meter, please update the information");
+		        		alert.setHeaderText(null);
+		        		alert.setContentText("bad things");
+		        		alert.showAndWait();
 		            }else {
-		            	System.out.println("invalid bill");
+		            	manager.addMeterMeasure(x);
+		            	Alert alert = new Alert(AlertType.INFORMATION);
+		        		alert.setTitle("Information Added");
+		        		alert.setHeaderText(null);
+		        		alert.setContentText("Success");
+		        		alert.showAndWait();
 		            }
+		            
 	            }catch(Exception e){
-	            	cont.handleInvalidBill();
-	            	f.getBill();
+	            	Alert alert = new Alert(AlertType.INFORMATION);
+	        		alert.setTitle("File No Good");
+	        		alert.setHeaderText(null);
+	        		alert.setContentText("The file you selected is invalid, please check the information");
+	        		alert.showAndWait();
 	            }
-	        } catch (TesseractException e) {
-	        	
-	        }
+	        } catch (TesseractException e) {}
  		}
- 		window.setScene(windowScene);
  		
  		
 	}
 
 	
-//	/**
-//	 * @author Reza Amjad
-//	 * will add all the existing project to the main window 
-//	 */
-//	public void LoadProjectsToGrid() {
-//		for(int i = 0; i < manager.getmyProjects().size();i++) {
-//			add_project_to_Grid(create_button(manager.getmyProjects().get(i).getName()));
-//		}	
-//	}
-	
 	/**
-	 * 
-	 * @param button
-	 * will add the projects to the grid on the main window
-	 * @param button to represent a project.
-	 * by clicking the button user can open the project
-	 */
-  /*public void add_project_to_Grid(Button button) {
-	
-	int row = 0;
-	int column = 0;
-	button.setVisible(true);
-	if(column> numOfColumn ) {
-		if(row > numOfRow) {
-			
-			gp.addRow(numOfRow +=1,button);
-			column = 0;	
-		}
-	}else {
-		
-		gp.add(button,column,row);
-		column++;
-	}	
-}
-	
-   public Button create_button(String name) {	
-			
-			Button button = new Button(name);
-			System.out.println(button.getText());
-	    	button.setOnAction(e->{
-	    		 try {
-	    	            FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
-	    	            AnchorPane Ap =  loader.load();
-	    	            Stage stage = new Stage();
-	    	            Scene window = new Scene(Ap);
-	    	            stage.setScene(window);
-	    	            stage.show();
-	    	        }
-	    	        catch (IOException e1) {
-	    	            e1.printStackTrace();
-	    	       }
-	    	    
-	    	});
-	    	return button;
- }   
-  
-  @Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-	  
-	  data = FXCollections.observableArrayList(new Project("Project1"),
-		    new Project("Project2"),
-		    new Project("Project3"));
-	  for(int i = 0; i < data.size();i++) {
-		add_project_to_Grid(create_button(data.get(i).getName()));
-	  }    
-//	    if(manager.getmyProjects() != null) {
-//	    	data = FXCollections.observableArrayList(manager.getmyProjects());
-//	    	for(int i = 0; i < data.size();i++) {
-//				add_project_to_Grid(create_button(data.get(i).getName()));
-//		    }    
-//	    }  	
-	}*/
-
-	
-	/*
 	 * @author Kyle Beveridge
 	 * */
 	public void handleOpenProject(Project theProject) {
@@ -340,7 +263,8 @@ public class WindowControl /*implements Initializable*/{
         }
 	}
 	
-	/*@author Kyle Beveridge
+	/**
+	 * @author Kyle Beveridge
 	 * 
 	 * */
 	private class ProjectListListener implements ListChangeListener<Project>{
