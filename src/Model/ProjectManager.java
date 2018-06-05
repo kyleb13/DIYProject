@@ -1,7 +1,10 @@
 package Model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,7 +53,7 @@ public class ProjectManager {
 				newName = oldName + "(" + i + ")";
 			}
 			Project newproj = new Project(theProject.getType(),newName, theProject.getCost(), theProject.getHours());
-			newproj.setMaterials(theProject.getMaterials());
+		//	newproj.setMaterials(theProject.getMaterials());
 			myProjects.add(newproj);
 			return newproj;
 		}
@@ -108,11 +111,56 @@ public class ProjectManager {
 		public String getUserEmail() {
 			return myEmail;
 		}
+		/**
+		 * This method finds the text file with materials and reads through the
+		 * file content and generate the list with that information and return it.
+		 * Runs similar to DataManager's reteriveProjects.
+		 * @author Emmett Kang
+		 * @return ObservableList object that contains all of the materials.
+		 * @throws IOException If the file cannot be found(I.E there's no project manager for the user), throw stuff. 
+		 */
+		public static ObservableList<Material> createMaterialList() throws IOException {
+			ObservableList<Material> materials = FXCollections.observableArrayList();
+			String materialString = "";
+			FileReader fr;
+			BufferedReader br;
+			
+			File file = new File("material.txt");
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			
+			//Attributes of materials.
+			String materialName;
+			double materialWidth;
+			double materialPrice;
+			double materialHeight;
+			String[] tokens; //Array of material attributes.
+			
+			
+			//Read file, create material accordingly and add to the materials list.
+			while((materialString = br.readLine()) != null) {
+				tokens = materialString.split(",");
+				materialName = tokens[0];
+				materialHeight = Double.parseDouble(tokens[1]);
+				materialWidth = Double.parseDouble(tokens[2]);
+				materialPrice = Double.parseDouble(tokens[3]);
+				Material material = new Material(materialName, materialHeight, materialWidth, materialPrice);
+				materials.add(material);
+			}
+			
+			
+			fr.close();
+			br.close();
+			return materials;
+		}
+
 		public int getMeterNumber() {
 			return meterNumber;
 		}
 		public ArrayList<Integer> getMeterNumbers() {
 			return meterNumbers;
 		}
+		
+
 
 }
