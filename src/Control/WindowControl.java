@@ -323,7 +323,6 @@ public class WindowControl /*implements Initializable*/{
 			while(c.next()) {
 				if(c.wasAdded()) {
 					for(Project p:c.getAddedSubList()) {
-						System.out.println(p.getName());
 						ImageView newpj = new ImageView("/icons/notype.png");
 						Label name = new Label(p.getName());
 						newpj.setFitWidth(50);
