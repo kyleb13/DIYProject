@@ -1,3 +1,4 @@
+
 package Model;
 
 import java.io.BufferedReader;
@@ -91,7 +92,7 @@ public class DataManager {
 	
 	public static void main(String[] args) throws IOException {
 		ProjectManager pm = new ProjectManager();
-		pm.addUser("emmettkang\nelk9516");
+		pm.addUser("emmettkang\nelk9516", 100);
 		Project p1 = new Project("Mercury", "Emmett1", 36000, 12);
 		ObservableList<Material> mat = ProjectManager.createMaterialList();
 		p1.setMaterials(mat);

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,8 @@ public class ProjectManager {
 		private ObservableList<Project> myProjects;
 		private String myName;
 		private String myEmail;
+		private int meterNumber;
+		private ArrayList<Integer> meterNumbers;
 		
 		
 		public ProjectManager() {
@@ -21,6 +24,7 @@ public class ProjectManager {
 			myName = "";
 			myEmail = "";
 			
+			meterNumbers = new ArrayList<>();
 		}
 		
 		public ObservableList<Project> getmyProjects() {
@@ -83,11 +87,14 @@ public class ProjectManager {
 		 * @author Tyler Pitsch
 		 * @param user the information about the user to be saved later. 
 		 */
-		public void addUser(String user) {
+		public void addUser(String user,int meterNum) {
 			
 			this.myName = user.substring(0, user.indexOf("\n")+1);
 			this.myEmail = user.substring(user.indexOf("\n")+1, user.length());
-			
+			meterNumber = meterNum;
+		}
+		public void addMeterMeasure(int val) {
+			meterNumbers.add(val);
 		}
 		
 		public String getUser() {
@@ -104,7 +111,6 @@ public class ProjectManager {
 		public String getUserEmail() {
 			return myEmail;
 		}
-		
 		/**
 		 * This method finds the text file with materials and reads through the
 		 * file content and generate the list with that information and return it.
@@ -146,6 +152,13 @@ public class ProjectManager {
 			fr.close();
 			br.close();
 			return materials;
+		}
+
+		public int getMeterNumber() {
+			return meterNumber;
+		}
+		public ArrayList<Integer> getMeterNumbers() {
+			return meterNumbers;
 		}
 		
 
