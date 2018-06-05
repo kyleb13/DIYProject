@@ -40,11 +40,9 @@ public class startProjectControl{
 
     @FXML
     private Label errorLabel;
-    
-    private String projectName = "";
 
 	
-	private ProjectManager pm ;
+	private ProjectManager pm;
 	private WindowControl main;
 	Project project;
 	ObservableList<Project> data;
@@ -54,28 +52,30 @@ public class startProjectControl{
     	((Stage)(cancel.getScene().getWindow())).close();
     }
 
+    
     @FXML
     void handelFinishButtonAction() {
-    	
-    	ObservableList<Node> input = grid.getChildren();
-		if (nameValidation(((TextField) input.get(0)).getText())) {
-			projectName += ((TextField) input.get(0)).getText();
+    	//ObservableList<Node> input = grid.getChildren();
+		if (nameValidation(text.getText())) {
 			errorLabel.setVisible(false);
-			pm.addProject(new Project(projectName));
+			pm.addProject(new Project(text.getText()));
 			((Stage)(finish.getScene().getWindow())).close();
 		}else {
 			errorLabel.setVisible(true);
-			((TextField) input.get(0)).clear();
+			text.clear();
 		}
     }
+    
     boolean nameValidation(String name) {
-    	Pattern p = Pattern.compile(".*[0-9]*$");
+    	Pattern p = Pattern.compile(".*[1-9]*$");
 		Matcher m = p.matcher(name);
 		return m.matches();
     }
     
    
-    
+    public void addPM(ProjectManager theManager) {
+    	pm = theManager;
+    }
     
     
     

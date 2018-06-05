@@ -1,23 +1,27 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 //TODO: add support to read in existing projects from file system
 //TODO: javadoc and commenting
 public class ProjectManager {
-		private ArrayList<Project> myProjects;
+		private ObservableList<Project> myProjects;
 		private String myName;
 		private String myEmail;
 		
 		
 		public ProjectManager() {
-			myProjects = new ArrayList<>();
+			myProjects = FXCollections.observableArrayList();
 			myName = "";
 			myEmail = "";
 			
 		}
 		
-		public ArrayList<Project> getmyProjects() {
+		public ObservableList<Project> getmyProjects() {
 			return myProjects;
 		}
 		

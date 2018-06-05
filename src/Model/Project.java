@@ -29,7 +29,7 @@ public class Project {
 	 * edited by Reza
 	 * */
 	public Project(String theName) {
-		this(theName, "None", 0, 0);
+		this("None", theName, 0, 0);
 		
 	}
 	
