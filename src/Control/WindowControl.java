@@ -172,7 +172,6 @@ public class WindowControl{
  		OCRControl cont = loader.getController();
  		
  		File file = f.getBill();
- 		//Stage s = new Stage();
  		if(file != null) {
 	 		ITesseract instance = new Tesseract();  // JNA Interface Mapping
 	        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
@@ -181,18 +180,21 @@ public class WindowControl{
 	        try {
 	        	
 	            String result = instance.doOCR(file);
-	            //String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
-	            //int x = Integer.parseInt(thisPeriod);
-	
-	            //String lastPeriod = result.substring(result.indexOf("Same period",1596));
-	            //System.out.println(result);
-	            if(result.contains("Meter Number: ")) {
-	            	System.out.println("valid bill");
-	            }else {
-	            	System.out.println("invalid bill");
+	            try {
+		            String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
+		            int x = Integer.parseInt(thisPeriod);
+		            System.out.println(result);
+		            if(result.contains("Meter Number: ")) {
+		            	System.out.println("valid bill");
+		            }else {
+		            	System.out.println("invalid bill");
+		            }
+	            }catch(Exception e){
+	            	cont.handleInvalidBill();
+	            	f.getBill();
 	            }
 	        } catch (TesseractException e) {
-	            System.err.println(e.getMessage());
+	        	
 	        }
  		}
  		window.setScene(windowScene);
