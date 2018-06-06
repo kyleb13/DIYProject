@@ -30,7 +30,6 @@ import net.sourceforge.tess4j.TesseractException;
 
 
 
-
 /**
  * Main window controller class.  Tied to the file theWindow.xml.  Handles all actions of 
  * the main window. 
@@ -255,8 +254,7 @@ public class WindowControl{
             Scene window = new Scene(Ap);
             stage.setScene(window);
             //uncomment next line if you want to pass something to the controller class
-            newProjectWindowControl controller = loader.getController();
-            //controller.addProject(theProject);
+            //newProjectWindowControl controller = loader.getController();
             stage.show();
         }
         catch (IOException e) {
