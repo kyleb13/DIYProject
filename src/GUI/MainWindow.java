@@ -11,7 +11,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-
+/**
+ * Main window and application kickoff.
+ * 
+ * @author Tyler Pitsch
+ * @version 1.0 5/21/18
+ */
 public class MainWindow extends Application {
     
 	private Stage primaryStage;
@@ -23,6 +28,12 @@ public class MainWindow extends Application {
       mainWindow();
     }
     
+    
+    /**
+     * Open up the main window and start the application.
+     * 
+     * @author Tyler Pitsch 
+     */
     public void mainWindow() {
     	try {
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/theWindow.fxml"));
@@ -31,7 +42,7 @@ public class MainWindow extends Application {
     		Scene scene = new Scene(pane);
     		
     		WindowControl control = loader.getController();
-    		control.makeWindow(primaryStage);
+    		control.makeWindow(primaryStage,scene);
     		
     		primaryStage.setScene(scene);
     		primaryStage.show();

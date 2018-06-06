@@ -33,6 +33,7 @@ public class InfoWindowControl {
 	@FXML private Label errorLabel;
 	
 	private String info = "";
+	private int meterNumber = 0;
 	
 	/**
 	 * Final actions to be taken by the window before being closed.
@@ -52,6 +53,8 @@ public class InfoWindowControl {
 		info += ((TextField) l.get(0)).getText();
 		info += "\n";
 		info += ((TextField) l.get(1)).getText();
+		meterNumber = Integer.parseInt(((TextField) l.get(2)).getText());
+		
 		if (validateEmail(((TextField) l.get(1)).getText())) {
 			finish();
 		}
@@ -78,6 +81,9 @@ public class InfoWindowControl {
 	 */
 	public String getInfo() {
 		return info;
+	}
+	public int getMeterNumber() {
+		return meterNumber;
 	}
 	
 }

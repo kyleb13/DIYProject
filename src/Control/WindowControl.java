@@ -5,24 +5,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ConcurrentModificationException;
 import java.util.Optional;
-import java.util.ResourceBundle;
-
 import FileManagement.FileSystem;
 import Model.Project;
 import Model.ProjectManager;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -35,14 +30,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.Tesseract1;
 import net.sourceforge.tess4j.TesseractException;
 
 
@@ -55,12 +48,14 @@ import net.sourceforge.tess4j.TesseractException;
  * @version 1.0 5/21/18
  *
  */
-public class WindowControl /*implements Initializable*/{
+public class WindowControl{
 	
 	@FXML private AnchorPane theInfo;
 	@FXML private TextField search;
 	private ProjectManager manager;
 	private Stage window;
+
+	private Scene windowScene;
 	@FXML
 	//private Button newProject;
 	private ImageView newProject;
@@ -76,10 +71,10 @@ public class WindowControl /*implements Initializable*/{
    Project project;
    ObservableList<Project> data;
 	
-	
-	public void makeWindow(Stage window) {
+	public void makeWindow(Stage window,Scene windowScene) {
 		this.window = window;
 		manager = new ProjectManager();
+		this.windowScene = windowScene;
 		data = manager.getmyProjects();
 		newProject.setImage(new Image("/icons/square_plus.png"));
 		data.addListener(new ProjectListListener());//this listener class is at the bottom
@@ -126,7 +121,7 @@ public class WindowControl /*implements Initializable*/{
 	 * information
 	 * @author Tyler Pitsch
 	 */
-	public void handleSettings() {
+	public void handleSettings(){
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/infoWindow.fxml"));
@@ -138,7 +133,8 @@ public class WindowControl /*implements Initializable*/{
     		Stage s = new Stage();
     		s.setScene(scene);
     		s.showAndWait();
-    		manager.addUser(cont.getInfo());
+    		manager.addUser(cont.getInfo(),cont.getMeterNumber());
+    		
     		
 			
 		}catch(IOException e) {
@@ -195,7 +191,6 @@ public class WindowControl /*implements Initializable*/{
             e.printStackTrace();
         }
 	}
-	
 
 	/**
 	 * Makes a copy of the selected projects.
@@ -209,20 +204,64 @@ public class WindowControl /*implements Initializable*/{
         ITesseract instance = new Tesseract();  // JNA Interface Mapping
         // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
         instance.setDatapath("./tessdata");
-
-        try {
-        	
-            String result = instance.doOCR(imageFile);
-            //System.out.println(result);
-            String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
-            int x = Integer.parseInt(thisPeriod);
-            System.out.println(result);
-        } catch (TesseractException e) {
-            System.err.println(e.getMessage());
-        }
-    }
+	}
+/**
+ * OCR for user to enter their electric bills, most operations are handeled on the back by
+ * Tesseract but the information and saving of information is handeled here and in Project Manager
+ * @author Tyler Pitsch
+ * @throws IOException bad files
+ */
+	public void handleBill() throws IOException {
+		
+		FileSystem f = new FileSystem();
+ 		
+ 		File file = f.getBill();//grabs the bill the user wants to import
+ 		//if the files is null then we can just terminate
+ 		if(file != null) {
+	 		ITesseract instance = new Tesseract();  // JNA Interface Mapping
+	        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
+	        instance.setDatapath("./tessdata");
 	
-	/*
+	        //attempt to do OCR on the given file
+	        try {
+	        	
+	            String result = instance.doOCR(file);
+	            try {
+	            	//from the generated string grab the important information
+	            	int meterNumber = Integer.parseInt(result.substring(result.indexOf("Meter Number: ")+14,result.indexOf("Meter Number: " )+21));
+		            String thisPeriod = result.substring(result.indexOf("this period:")+13,result.indexOf("Same period")-1);
+		           
+		            //depending on the information we can upload or throw out the information
+		            int x = Integer.parseInt(thisPeriod);
+		            if(manager.getMeterNumber() != meterNumber) {
+		            	Alert alert = new Alert(AlertType.INFORMATION);
+		        		alert.setTitle("This bill is invalid for the current meter, please update the information");
+		        		alert.setHeaderText(null);
+		        		alert.setContentText("bad things");
+		        		alert.showAndWait();
+		            }else {
+		            	manager.addMeterMeasure(x);
+		            	Alert alert = new Alert(AlertType.INFORMATION);
+		        		alert.setTitle("Information Added");
+		        		alert.setHeaderText(null);
+		        		alert.setContentText("Success");
+		        		alert.showAndWait();
+		            }
+		            
+	            }catch(Exception e){
+	            	Alert alert = new Alert(AlertType.INFORMATION);
+	        		alert.setTitle("File No Good");
+	        		alert.setHeaderText(null);
+	        		alert.setContentText("The file you selected is invalid, please check the information");
+	        		alert.showAndWait();
+	            }
+	        } catch (TesseractException e) {}
+ 		}
+ 		
+ 		
+	}
+	
+	/**
 	 * @author Kyle Beveridge
 	 * */
 	public void handleOpenProject(Project theProject) {
@@ -234,7 +273,8 @@ public class WindowControl /*implements Initializable*/{
             Scene window = new Scene(Ap);
             stage.setScene(window);
             //uncomment next line if you want to pass something to the controller class
-            //newProjectWindowControl controller = loader.getController();
+            newProjectWindowControl controller = loader.getController();
+            //controller.addProject(theProject);
             stage.show();
         }
         catch (IOException e) {
@@ -251,6 +291,10 @@ public class WindowControl /*implements Initializable*/{
 	}
 	
 	/*@author Kyle Beveridge
+=======
+	/**
+	 * @author Kyle Beveridge
+>>>>>>> branch 'master' of https://github.com/kyleb13/DIYProject.git
 	 * 
 	 * */
 	private class ProjectListListener implements ListChangeListener<Project>{

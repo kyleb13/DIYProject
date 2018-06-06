@@ -17,12 +17,15 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <TextField id="name" fx:id="name" GridPane.columnIndex="1" />
             <TextField id="email" fx:id="email" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label alignment="CENTER" contentDisplay="CENTER" text="Name" />
             <Label text="Email" GridPane.rowIndex="1" />
+            <Label text="Meter" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Label fx:id="errorLabel" layoutX="122.0" layoutY="249.0" text="Invalid Email Please Enter Email in the Form: example@sample.com" textAlignment="CENTER" textFill="RED" visible="false" AnchorPane.leftAnchor="122.0" />
