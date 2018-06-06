@@ -2,6 +2,8 @@ package Control;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.Optional;
 import FileManagement.FileSystem;
 import Model.Project;
@@ -12,11 +14,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -53,8 +63,6 @@ public class WindowControl{
 	@FXML 
 	public GridPane projectGrid;
 	private startProjectControl spc;
-	private int nextX;
-	private int nextY;
 	
 	
 	@FXML 
@@ -69,8 +77,6 @@ public class WindowControl{
 		data = manager.getmyProjects();
 		newProject.setImage(new Image("/icons/square_plus.png"));
 		data.addListener(new ProjectListListener());//this listener class is at the bottom
-		nextX = 1;
-		nextY = 0;
 	}
 	
 	/**
@@ -185,6 +191,7 @@ public class WindowControl{
         }
 	}
 	
+	
 /**
  * OCR for user to enter their electric bills, most operations are handeled on the back by
  * Tesseract but the information and saving of information is handeled here and in Project Manager
@@ -240,7 +247,6 @@ public class WindowControl{
  		
  		
 	}
-
 	
 	/**
 	 * @author Kyle Beveridge
@@ -262,6 +268,14 @@ public class WindowControl{
         }
 	}
 	
+	public void handleContextMenu(double x, double y, Project p) {
+		ContextMenu menu = new ContextMenu();
+		MenuItem delete = new MenuItem("Delete");
+		delete.setOnAction(e-> manager.deleteProject(p));
+		menu.getItems().add(delete);
+		menu.show(window, x, y);
+	}
+	
 	/**
 	 * @author Kyle Beveridge
 	 * 
@@ -276,18 +290,44 @@ public class WindowControl{
 						Label name = new Label(p.getName());
 						newpj.setFitWidth(50);
 						newpj.setFitHeight(50);
-						newpj.setOnMouseClicked(e -> handleOpenProject(p));
-						VBox b = new VBox();
-						b.setAlignment(Pos.TOP_CENTER);
-						b.getChildren().addAll(newpj, name);
-						VBox.setMargin(newpj, new Insets(10, 0, 0, 0));
-						projectGrid.add(b, nextX, nextY);
-						nextX = nextX+1<4 ? nextX+1:0;
-						nextY = nextX == 0 ? nextY+1:nextY;
+						newpj.setOnMouseClicked(e -> {
+							if(e.getButton().toString() == "PRIMARY") {
+								handleOpenProject(p);
+							} else if(e.getButton().toString() == "SECONDARY"){
+								handleContextMenu(e.getScreenX(), e.getScreenY(), p);
+							}
+						});
+						addToGrid(newpj, name);
+					}
+				} else if(c.wasRemoved()) {
+					for(Project p:c.getRemoved()) {
+						for(Node child:projectGrid.getChildren()) {
+							if(child.getClass() == VBox.class) {
+								VBox current = (VBox) child;
+								if(current.getChildren().size() !=0 && ((Label)current.getChildren().get(1)).getText() == p.getName()) {
+									current.getChildren().clear();
+									break;
+								}
+							}
+						}
 					}
 				}
 			}
 			
+		}
+		
+		
+		private void addToGrid(ImageView img, Label name) {
+			for(Node n:projectGrid.getChildren()) {
+				if(n.getClass() == VBox.class) {
+					VBox b = ((VBox) n);
+					if(b.getChildren().size() == 0) {
+						b.getChildren().addAll(img, name);
+						VBox.setMargin(img, new Insets(10, 0, 0, 0));
+						break;
+					}
+				}
+			}
 		}
 
 
