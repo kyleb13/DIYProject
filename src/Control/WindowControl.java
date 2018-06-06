@@ -3,6 +3,7 @@ package Control;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ConcurrentModificationException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -23,8 +24,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -66,8 +69,6 @@ public class WindowControl /*implements Initializable*/{
 	@FXML 
 	public GridPane projectGrid;
 	private startProjectControl spc;
-	private int nextX;
-	private int nextY;
 	
 	
 	@FXML 
@@ -82,8 +83,6 @@ public class WindowControl /*implements Initializable*/{
 		data = manager.getmyProjects();
 		newProject.setImage(new Image("/icons/square_plus.png"));
 		data.addListener(new ProjectListListener());//this listener class is at the bottom
-		nextX = 1;
-		nextY = 0;
 	}
 	
 	/**
@@ -197,78 +196,7 @@ public class WindowControl /*implements Initializable*/{
         }
 	}
 	
-//	/**
-//	 * @author Reza Amjad
-//	 * will add all the existing project to the main window 
-//	 */
-//	public void LoadProjectsToGrid() {
-//		for(int i = 0; i < manager.getmyProjects().size();i++) {
-//			add_project_to_Grid(create_button(manager.getmyProjects().get(i).getName()));
-//		}	
-//	}
-	
-	/**
-	 * 
-	 * @param button
-	 * will add the projects to the grid on the main window
-	 * @param button to represent a project.
-	 * by clicking the button user can open the project
-	 */
-  /*public void add_project_to_Grid(Button button) {
-	
-	int row = 0;
-	int column = 0;
-	button.setVisible(true);
-	if(column> numOfColumn ) {
-		if(row > numOfRow) {
-			
-			gp.addRow(numOfRow +=1,button);
-			column = 0;	
-		}
-	}else {
-		
-		gp.add(button,column,row);
-		column++;
-	}	
-}
-	
-   public Button create_button(String name) {	
-			
-			Button button = new Button(name);
-			System.out.println(button.getText());
-	    	button.setOnAction(e->{
-	    		 try {
-	    	            FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
-	    	            AnchorPane Ap =  loader.load();
-	    	            Stage stage = new Stage();
-	    	            Scene window = new Scene(Ap);
-	    	            stage.setScene(window);
-	    	            stage.show();
-	    	        }
-	    	        catch (IOException e1) {
-	    	            e1.printStackTrace();
-	    	       }
-	    	    
-	    	});
-	    	return button;
- }   
-  
-  @Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-	  
-	  data = FXCollections.observableArrayList(new Project("Project1"),
-		    new Project("Project2"),
-		    new Project("Project3"));
-	  for(int i = 0; i < data.size();i++) {
-		add_project_to_Grid(create_button(data.get(i).getName()));
-	  }    
-//	    if(manager.getmyProjects() != null) {
-//	    	data = FXCollections.observableArrayList(manager.getmyProjects());
-//	    	for(int i = 0; i < data.size();i++) {
-//				add_project_to_Grid(create_button(data.get(i).getName()));
-//		    }    
-//	    }  	
-	}*/
+
 	/**
 	 * Makes a copy of the selected projects.
 	 * @author Tyler Pitsch
@@ -314,6 +242,14 @@ public class WindowControl /*implements Initializable*/{
         }
 	}
 	
+	public void handleContextMenu(double x, double y, Project p) {
+		ContextMenu menu = new ContextMenu();
+		MenuItem delete = new MenuItem("Delete");
+		delete.setOnAction(e-> manager.deleteProject(p));
+		menu.getItems().add(delete);
+		menu.show(window, x, y);
+	}
+	
 	/*@author Kyle Beveridge
 	 * 
 	 * */
@@ -327,18 +263,44 @@ public class WindowControl /*implements Initializable*/{
 						Label name = new Label(p.getName());
 						newpj.setFitWidth(50);
 						newpj.setFitHeight(50);
-						newpj.setOnMouseClicked(e -> handleOpenProject(p));
-						VBox b = new VBox();
-						b.setAlignment(Pos.TOP_CENTER);
-						b.getChildren().addAll(newpj, name);
-						VBox.setMargin(newpj, new Insets(10, 0, 0, 0));
-						projectGrid.add(b, nextX, nextY);
-						nextX = nextX+1<4 ? nextX+1:0;
-						nextY = nextX == 0 ? nextY+1:nextY;
+						newpj.setOnMouseClicked(e -> {
+							if(e.getButton().toString() == "PRIMARY") {
+								handleOpenProject(p);
+							} else if(e.getButton().toString() == "SECONDARY"){
+								handleContextMenu(e.getScreenX(), e.getScreenY(), p);
+							}
+						});
+						addToGrid(newpj, name);
+					}
+				} else if(c.wasRemoved()) {
+					for(Project p:c.getRemoved()) {
+						for(Node child:projectGrid.getChildren()) {
+							if(child.getClass() == VBox.class) {
+								VBox current = (VBox) child;
+								if(current.getChildren().size() !=0 && ((Label)current.getChildren().get(1)).getText() == p.getName()) {
+									current.getChildren().clear();
+									break;
+								}
+							}
+						}
 					}
 				}
 			}
 			
+		}
+		
+		
+		private void addToGrid(ImageView img, Label name) {
+			for(Node n:projectGrid.getChildren()) {
+				if(n.getClass() == VBox.class) {
+					VBox b = ((VBox) n);
+					if(b.getChildren().size() == 0) {
+						b.getChildren().addAll(img, name);
+						VBox.setMargin(img, new Insets(10, 0, 0, 0));
+						break;
+					}
+				}
+			}
 		}
 
 
