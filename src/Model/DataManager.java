@@ -32,7 +32,7 @@ public class DataManager {
 							+ project.getHours() + "," + project.getType());
 			filewriter.write("_");
 			for (int j = 0; j < project.getMaterials().size(); j++) {				
-				filewriter.write(project.getMaterials().get(j));
+				filewriter.write(project.getMaterials().get(j).toString());
 				if (j != project.getMaterials().size()-1) {
 					filewriter.write(","); 
 				} else {
@@ -86,9 +86,9 @@ public class DataManager {
 			
 			//Create the project with found attribute, add.
 			Project project = new Project(projecttype, projectname, projectcost, projecthour);
-			for (String s : mats) {
+			/*for (String s : mats) {
 				project.addMaterial(s);
-			}
+			}*/
 			//project.addMaterial(theMat);
 			retrieved.addProject(project);
 		}
