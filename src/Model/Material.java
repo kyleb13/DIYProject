@@ -1,14 +1,21 @@
 package Model;
+
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * This class creates a material with the according information. 
  * The class contains height, width, price and name. 
  * @author Emmett Kang
  *
  */
+
+//TODO: add tostring method
 public class Material {
 	private double height;
 	private double width;
 	private double price;
+	private IntegerProperty quantity;
 	private String name;
 	
 	/**
@@ -23,8 +30,12 @@ public class Material {
 		height = theHeight;
 		width = theWidth;
 		price = thePrice;
+		quantity = new SimpleIntegerProperty(0);
 	}
 	
+	public Material(Material theMaterial) {
+		this(theMaterial.getName(), theMaterial.getHeight(), theMaterial.getWidth(), theMaterial.getPrice());
+	}
 	
 	/*
 	 * Getters and setters.
@@ -60,6 +71,23 @@ public class Material {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	public int getQuantity() {
+		return quantity.get();
+	}
+
+
+	public void setQuantity(int quant) {
+		quantity.set(quant);
+	}
 	
+	public void incrementQuantity() {
+		quantity.set(quantity.get() + 1);
+	}
+	
+	public IntegerProperty quantityProperty() {
+		return quantity;
+	}
 	
 }

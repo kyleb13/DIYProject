@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 
@@ -9,9 +10,11 @@ public class Project {
 	private String myType;
 	private String myName;
 	private int myCost;
-	private ArrayList<String> myMaterials;
+	private ObservableList<Material> myMaterials;
 	private int myHours;
 	private Button myButton;
+	private double height;
+	private double width;
 	
 	/*
 	 * @author Kyle Beveridge
@@ -21,7 +24,7 @@ public class Project {
 		myName = theName;
 		myCost = theCost;
 		myHours = theHours;
-		myMaterials = new ArrayList<String>();
+		myMaterials = FXCollections.observableArrayList();
 
 	}
 	
@@ -37,7 +40,7 @@ public class Project {
 	/*
 	 * @author Kyle Beveridge
 	 * */
-	public void addMaterial(String theMat) {
+	public void addMaterial(Material theMat) {
 		myMaterials.add(theMat);
 	}
 	
@@ -51,20 +54,26 @@ public class Project {
 		}
 	}
 	
-	public ArrayList<String> getMaterials() {
-		ArrayList<String> copyList = new ArrayList<String>();
-		copyList.addAll(myMaterials);
-		//this will likely need to be a deep copy once
-		//the material class is made
+	public ObservableList<Material> getMaterials() {
 		return myMaterials;
 	}
 	
 
 	public void setMaterials(ObservableList<Material> theMaterials) {
-		for (int i = 0; i < theMaterials.size(); i++) {
-			myMaterials.add(theMaterials.get(i).getName());
+		myMaterials = theMaterials;
+	}
+	
+	
+	public int findMaterial(String name) {
+		int i = -1;
+		for(Material m:myMaterials) {
+			if(m.getName() == name) {
+				i = myMaterials.indexOf(m);
+				break;
+			}
 		}
-	} 
+		return i;
+	}
 	
 	/*
 	 * @author Kyle Beveridge
@@ -121,6 +130,7 @@ public class Project {
 	public void setHours(int myHours) {
 		this.myHours = myHours;
 	}
+	
 	
 	public Button getButton() {
         return myButton;
