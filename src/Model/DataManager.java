@@ -24,10 +24,21 @@ public class DataManager {
 		FileWriter filewriter = new FileWriter(file);
 
 		ObservableList<Project> ProjectList = PM.getmyProjects();
+		filewriter.write(PM.getMeterNumber()+ "_");
+		if (PM.getMeterNumbers().size() != 0) {
+			for (int i = 0; i < PM.getMeterNumbers().size(); i++) {
+				filewriter.write(PM.getMeterNumbers().get(i));
+				if (i != PM.getMeterNumbers().size()-1) {
+					filewriter.write(",");
+				} else {
+					filewriter.write("_");
+				}
+			}
+		}
+		
 		//Get the projects from the list, store them by attributes into text file.
 		for (int i = 0; i < ProjectList.size(); i++) {
 			Project project = ProjectList.get(i);
-			//Only writing name, cost, hours and type for now, until I see how materials is implemented
 			filewriter.write(project.getName() + "," + project.getCost() + "," 
 							+ project.getHours() + "," + project.getType());
 			filewriter.write("_");
@@ -89,7 +100,6 @@ public class DataManager {
 			for (String s : mats) {
 				project.addMaterial(s);
 			}
-			//project.addMaterial(theMat);
 			retrieved.addProject(project);
 		}
 		
@@ -100,7 +110,7 @@ public class DataManager {
 	}
 	
 	
-	/*
+	
 	public static void main(String[] args) throws IOException {
 		ProjectManager pm = new ProjectManager();
 		pm.addUser("emmettkang\nelk9516", 100);
@@ -108,12 +118,12 @@ public class DataManager {
 		ObservableList<Material> mat = ProjectManager.createMaterialList();
 		p1.setMaterials(mat);
 		pm.addProject(p1);
+		pm.setMeterNumber(15);
 		storeProjects(pm);
-		ProjectManager pm2 = retrieveProjects(pm.getUserEmail());
-		for (int i = 0; i < pm2.getmyProjects().get(0).getMaterials().size(); i++) {
-			System.out.println(pm2.getmyProjects().get(0).getMaterials().get(i));
-		}
-	}*/
+		
+		
+		
+	}
 	
 		
 

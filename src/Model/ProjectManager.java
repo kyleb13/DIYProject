@@ -161,6 +161,9 @@ public class ProjectManager {
 			return meterNumbers;
 		}
 		
+		public void setMeterNumber(int theMeterNumber) {
+			meterNumber = theMeterNumber;
+		}
 
 
 }
