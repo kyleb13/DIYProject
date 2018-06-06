@@ -32,7 +32,7 @@ public class DataManager {
 							+ project.getHours() + "," + project.getType());
 			filewriter.write(" ");
 			for (int j = 0; j < project.getMaterials().size(); j++) {				
-				filewriter.write(project.getMaterials().get(j));
+				filewriter.write(project.getMaterials().get(j).toString());
 				if (j != project.getMaterials().size()-1) {
 					filewriter.write(","); 
 				} else {

@@ -274,7 +274,8 @@ public class WindowControl{
             stage.setScene(window);
             //uncomment next line if you want to pass something to the controller class
             newProjectWindowControl controller = loader.getController();
-            //controller.addProject(theProject);
+            controller.addProject(theProject);
+            controller.setupAvailibleMaterials();
             stage.show();
         }
         catch (IOException e) {
@@ -285,33 +286,32 @@ public class WindowControl{
 	public void handleContextMenu(double x, double y, Project p) {
 		ContextMenu menu = new ContextMenu();
 		MenuItem delete = new MenuItem("Delete");
+		MenuItem copy = new MenuItem("Copy");
 		delete.setOnAction(e-> manager.deleteProject(p));
-		menu.getItems().add(delete);
+		copy.setOnAction(e-> manager.copyProject(p));
+		menu.getItems().addAll(delete, copy);
 		menu.show(window, x, y);
 	}
 	
-	/*@author Kyle Beveridge
-=======
 	/**
 	 * @author Kyle Beveridge
->>>>>>> branch 'master' of https://github.com/kyleb13/DIYProject.git
 	 * 
 	 * */
 	private class ProjectListListener implements ListChangeListener<Project>{
 		@Override
 		public void onChanged(Change<? extends Project> c) {
 			while(c.next()) {
-				if(c.wasAdded()) {
-					for(Project p:c.getAddedSubList()) {
+				if(c.wasAdded()) {//New project added
+					for(Project p:c.getAddedSubList()) {//iterate through added projects
 						ImageView newpj = new ImageView("/icons/notype.png");
 						Label name = new Label(p.getName());
 						newpj.setFitWidth(50);
 						newpj.setFitHeight(50);
 						newpj.setOnMouseClicked(e -> {
 							if(e.getButton().toString() == "PRIMARY") {
-								handleOpenProject(p);
+								handleOpenProject(p);//open project edit window on left click
 							} else if(e.getButton().toString() == "SECONDARY"){
-								handleContextMenu(e.getScreenX(), e.getScreenY(), p);
+								handleContextMenu(e.getScreenX(), e.getScreenY(), p);//bring up context menu on right click
 							}
 						});
 						addToGrid(newpj, name);
