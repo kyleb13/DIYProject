@@ -30,13 +30,13 @@ public class DataManager {
 			//Only writing name, cost, hours and type for now, until I see how materials is implemented
 			filewriter.write(project.getName() + "," + project.getCost() + "," 
 							+ project.getHours() + "," + project.getType());
-			filewriter.write(" ");
+			filewriter.write("_");
 			for (int j = 0; j < project.getMaterials().size(); j++) {				
 				filewriter.write(project.getMaterials().get(j).toString());
 				if (j != project.getMaterials().size()-1) {
 					filewriter.write(","); 
 				} else {
-					filewriter.write("\n");
+					filewriter.write("\n");   
 				}
 			}
 		}
@@ -53,7 +53,7 @@ public class DataManager {
 	 * @return ProjectManager object that contains retrieved projects.
 	 * @throws IOException If the file cannot be found(I.E there's no project manager for the user), throw stuff. 
 	 */
-	public ProjectManager retrieveProjects(String userinfo) throws IOException {
+	public static ProjectManager retrieveProjects(String userinfo) throws IOException {
 		//ProjectManager to be returned after populating with project.
 		ProjectManager retrieved = new ProjectManager();
 		String projectString = "";
@@ -70,17 +70,26 @@ public class DataManager {
 		int projecthour;
 		int projectcost;
 		String[] tokens; //Array of project attributes.
-		
+		String[] info;
+		String[] mats;
 		//Read file, create project accordingly and add to the project manager.
 		while((projectString = br.readLine()) != null) {
-			tokens = projectString.split(",");
+			info = projectString.split("_");
+			
+			tokens = info[0].split(",");
 			projectname = tokens[0];
 			projectcost = Integer.parseInt(tokens[1]);
 			projecthour = Integer.parseInt(tokens[2]);
 			projecttype = tokens[3];
 			
+			mats = info[1].split(",");
+			
 			//Create the project with found attribute, add.
 			Project project = new Project(projecttype, projectname, projectcost, projecthour);
+			/*for (String s : mats) {
+				project.addMaterial(s);
+			}*/
+			//project.addMaterial(theMat);
 			retrieved.addProject(project);
 		}
 		
@@ -90,6 +99,8 @@ public class DataManager {
 		return retrieved;
 	}
 	
+	
+	/*
 	public static void main(String[] args) throws IOException {
 		ProjectManager pm = new ProjectManager();
 		pm.addUser("emmettkang\nelk9516", 100);
@@ -98,7 +109,11 @@ public class DataManager {
 		p1.setMaterials(mat);
 		pm.addProject(p1);
 		storeProjects(pm);
-	}
+		ProjectManager pm2 = retrieveProjects(pm.getUserEmail());
+		for (int i = 0; i < pm2.getmyProjects().get(0).getMaterials().size(); i++) {
+			System.out.println(pm2.getmyProjects().get(0).getMaterials().get(i));
+		}
+	}*/
 	
 		
 
