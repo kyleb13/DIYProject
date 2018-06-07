@@ -1,9 +1,13 @@
 
 package Control;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import Model.Material;
 import Model.Project;
+import Model.ProjectManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -12,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -29,21 +35,37 @@ public class newProjectWindowControl {
 	
 	@FXML private TextField totalQuantity;
 	@FXML private TextField totalArea;
+	
+	@FXML public Button construction;
+	@FXML public Button floors;
+	@FXML public Button bathroom;
+	@FXML public Button kitchen;
+	@FXML public Button garden;
 
-	private ArrayList<Material> allMaterials;
+	private List<Material> allMaterials;
 	
 	private Project project;
 	
+	private ImageView pjImage;
+	
 	public newProjectWindowControl() {
-		allMaterials = new ArrayList<Material>();
+		try {
+			allMaterials = ProjectManager.createMaterialList();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void setupTypeButtons() {
+		construction.setOnAction(e -> handleTypeChange(construction.getText()));
+		floors.setOnAction(e -> handleTypeChange(floors.getText()));
+		bathroom.setOnAction(e -> handleTypeChange(bathroom.getText()));
+		kitchen.setOnAction(e -> handleTypeChange(kitchen.getText()));
+		garden.setOnAction(e -> handleTypeChange(garden.getText()));
 	}
 	
 	public void setupAvailibleMaterials() {
-		allMaterials.add(new Material("Wood", 3, 5, 5.99));
-		allMaterials.add(new Material("Carpet", 6, 6, 12.99));
-		allMaterials.add(new Material("Marble", 4, 8, 75.99));
-		allMaterials.add(new Material("Metal", 4, 4, 20.99));
-		allMaterials.add(new Material("Dirt", 10, 10, 1.99));
 		for(Material m: allMaterials) {
 			HBox box = new HBox();
 			box.setSpacing(20);
@@ -127,12 +149,18 @@ public class newProjectWindowControl {
 			totalA+=m.getHeight() * m.getWidth();
 			totalP+=m.getPrice() * m.getQuantity();
 		}
-		totalQuantity.setText(totalQ + "");
-		totalArea.setText(totalA + " ft^2");
-		String pstring = "$" + totalP;
-		pstring = pstring.substring(0, pstring.indexOf(".") + 3);
-		price.setText(pstring);
-		project.setCost(totalP);
+		if(totalP != 0) {
+			totalQuantity.setText(totalQ + "");
+			totalArea.setText(totalA + " ft^2");
+			String pstring = "$" + totalP;
+			pstring = pstring.substring(0, pstring.indexOf(".") + 3);
+			price.setText(pstring);
+			project.setCost(totalP);
+		}
+	}
+	
+	public void addImage(ImageView img) {
+		pjImage = img;
 	}
 	
 
@@ -143,6 +171,11 @@ public class newProjectWindowControl {
 	@FXML
 	private void cancelClicked() {
 		((Stage)(cancel.getScene().getWindow())).close();
+	}
+	
+
+	private void handleTypeChange(String type) {
+		pjImage.setImage(new Image("/icons/" + type + ".png"));
 	}
 	
 	public void addProject(Project theProject) {
