@@ -40,7 +40,6 @@ import net.sourceforge.tess4j.TesseractException;
 
 
 
-
 /**
  * Main window controller class.  Tied to the file theWindow.xml.  Handles all actions of 
  * the main window. 
@@ -191,20 +190,8 @@ public class WindowControl{
             e.printStackTrace();
         }
 	}
-
-	/**
-	 * Makes a copy of the selected projects.
-	 * @author Tyler Pitsch
-	 * 
-	 * ***************DONT TOUCH THIS OCR CODE, I WILL FIX IT IN A WHILE
-	 */
-	public void handleCopy() {
-		//Edited by Kyle: removed hard coded paths
-		File imageFile = new File("SeattleBill.gif");
-        ITesseract instance = new Tesseract();  // JNA Interface Mapping
-        // ITesseract instance = new Tesseract1(); // JNA Direct Mapping
-        instance.setDatapath("./tessdata");
-	}
+	
+	
 /**
  * OCR for user to enter their electric bills, most operations are handeled on the back by
  * Tesseract but the information and saving of information is handeled here and in Project Manager
@@ -273,6 +260,7 @@ public class WindowControl{
             Scene window = new Scene(Ap);
             stage.setScene(window);
             //uncomment next line if you want to pass something to the controller class
+
             newProjectWindowControl controller = loader.getController();
             controller.addProject(theProject);
             controller.setupAvailibleMaterials();

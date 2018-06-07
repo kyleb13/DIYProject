@@ -77,21 +77,6 @@ public class startProjectControl{
     	pm = theManager;
     }
     
-    
-    
-//public void add_new_project_to_grid(Button button) {
-//	ObservableList<Node> index = main.gp.getChildren();
-//	int i = 0;
-//	if(index.get(i) == null) {
-//		//main.add_project_to_Grid(button);
-//	}else {
-//		while(index.get(i) != null) {
-//			i++;
-//		}
-//		//main.add_project_to_Grid(button);
-//	}
-//}
-    
   
     
 }

@@ -31,14 +31,14 @@ public class ProjectManager {
 			return myProjects;
 		}
 		
-		/*
+		/**
 		 * @author Kyle Beveridge
 		 * */
 		public void addProject(Project theProject) {
 			myProjects.add(theProject);
 		}
 		
-		/*
+		/**
 		 * @author Kyle Beveridge
 		 * 
 		 * Copies the given project, adds it to the project list,
@@ -58,14 +58,14 @@ public class ProjectManager {
 			return newproj;
 		}
 		
-		/*
+		/**
 		 * @author Kyle Beveridge
 		 * */
 		public void deleteProject(Project theProject) {
 			myProjects.remove(theProject);
 		}
 		
-		/*
+		/**
 		 * @author Kyle Beveridge
 		 * */
 		private int findProjectByName(String theName) {
