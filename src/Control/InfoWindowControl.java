@@ -53,7 +53,8 @@ public class InfoWindowControl {
 		info += ((TextField) l.get(0)).getText();
 		info += "\n";
 		info += ((TextField) l.get(1)).getText();
-		meterNumber = Integer.parseInt(((TextField) l.get(2)).getText());
+		String m = ((TextField) l.get(5)).getText();
+		meterNumber = Integer.parseInt(m);
 		
 		if (validateEmail(((TextField) l.get(1)).getText())) {
 			finish();
