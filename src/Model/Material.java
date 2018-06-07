@@ -35,6 +35,7 @@ public class Material {
 	
 	public Material(Material theMaterial) {
 		this(theMaterial.getName(), theMaterial.getHeight(), theMaterial.getWidth(), theMaterial.getPrice());
+		quantity.set(theMaterial.getQuantity());
 	}
 	
 	/*

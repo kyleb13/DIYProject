@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -9,17 +7,15 @@ import javafx.scene.control.Button;
 public class Project {
 	private String myType;
 	private String myName;
-	private int myCost;
+	private double myCost;
 	private ObservableList<Material> myMaterials;
 	private int myHours;
 	private Button myButton;
-	private double height;
-	private double width;
 	
 	/*
 	 * @author Kyle Beveridge
 	 * */
-	public Project(String theType, String theName, int theCost, int theHours) {
+	public Project(String theType, String theName, double theCost, int theHours) {
 		myType = theType;
 		myName = theName;
 		myCost = theCost;
@@ -47,7 +43,7 @@ public class Project {
 	/*
 	 * @author Kyle Beveridge
 	 * */
-	public void removeMaterial(String theMat) {
+	public void removeMaterial(Material theMat) {
 		int idx = myMaterials.indexOf(theMat);
 		if(idx != -1) {
 			myMaterials.remove(idx);
@@ -106,14 +102,14 @@ public class Project {
 	/*
 	 * @author Kyle Beveridge
 	 * */
-	public int getCost() {
+	public double getCost() {
 		return myCost;
 	}
 
 	/*
 	 * @author Kyle Beveridge
 	 * */
-	public void setCost(int myCost) {
+	public void setCost(double myCost) {
 		this.myCost = myCost;
 	}
 

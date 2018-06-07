@@ -250,8 +250,9 @@ public class WindowControl{
 	
 	/**
 	 * @author Kyle Beveridge
+	 * @param image 
 	 * */
-	public void handleOpenProject(Project theProject) {
+	public void handleOpenProject(Project theProject, ImageView image) {
 		try {
             FXMLLoader loader= new FXMLLoader(getClass().getResource("/NewProject.fxml"));
             AnchorPane Ap =  loader.load();
@@ -264,6 +265,9 @@ public class WindowControl{
             newProjectWindowControl controller = loader.getController();
             controller.addProject(theProject);
             controller.setupAvailibleMaterials();
+            controller.setUpAddedMaterials();
+            controller.addImage(image);
+            controller.setupTypeButtons();
             stage.show();
         }
         catch (IOException e) {
@@ -297,7 +301,7 @@ public class WindowControl{
 						newpj.setFitHeight(50);
 						newpj.setOnMouseClicked(e -> {
 							if(e.getButton().toString() == "PRIMARY") {
-								handleOpenProject(p);//open project edit window on left click
+								handleOpenProject(p, newpj);//open project edit window on left click
 							} else if(e.getButton().toString() == "SECONDARY"){
 								handleContextMenu(e.getScreenX(), e.getScreenY(), p);//bring up context menu on right click
 							}

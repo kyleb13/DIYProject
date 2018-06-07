@@ -68,7 +68,7 @@ public class DataManager {
 	 * @return ProjectManager object that contains retrieved projects.
 	 * @throws IOException If the file cannot be found(I.E there's no project manager for the user), throw stuff. 
 	 */
-	public static ProjectManager retrieveProjects(String userinfo) throws IOException {
+	public static ProjectManager retrieveProjects(File file) throws IOException {
 		//ProjectManager to be returned after populating with project.
 		ProjectManager retrieved = new ProjectManager();
 		String projectString = "";
@@ -77,7 +77,6 @@ public class DataManager {
 		
 		ObservableList<Material>materialList = ProjectManager.createMaterialList();
 		
-		File file = new File(userinfo+".txt");
 		fr = new FileReader(file);
 		br = new BufferedReader(fr);
 		

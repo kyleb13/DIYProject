@@ -15,9 +15,19 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Separator layoutX="297.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="235.0" prefWidth="5.0" />
-                        <TextField fx:id="price" layoutX="82.0" layoutY="182.0" promptText="0.0" />
-                        <Label layoutX="25.0" layoutY="186.0" text="Price" />
+                        <TextField fx:id="price" layoutX="126.0" layoutY="191.0" promptText="0.0" />
+                        <Label layoutX="39.0" layoutY="195.0" text="Price" />
                         <Label fx:id="error" layoutX="60.0" layoutY="177.0" text="Invalid Input" textAlignment="CENTER" textFill="#eb0303" visible="false" />
+                        <TextField fx:id="totalArea" editable="false" layoutX="126.0" layoutY="116.0" text="0.0" />
+                        <TextField fx:id="totalQuantity" editable="false" layoutX="126.0" layoutY="45.0" text="0" />
+                        <Label layoutX="16.0" layoutY="120.0" text="Material Area" />
+                        <Label layoutX="5.0" layoutY="49.0" text="Material Quantity" />
+                        <Label layoutX="390.0" layoutY="14.0" text="Change Project Type" />
+                        <Button fx:id="construction" layoutX="407.0" layoutY="40.0" mnemonicParsing="false" text="Construction" />
+                        <Button fx:id="floors" layoutX="407.0" layoutY="78.0" mnemonicParsing="false" text="Floors" />
+                        <Button fx:id="bathroom" layoutX="407.0" layoutY="116.0" mnemonicParsing="false" text="Bathroom" />
+                        <Button fx:id="kitchen" layoutX="407.0" layoutY="152.0" mnemonicParsing="false" text="Kitchen" />
+                        <Button fx:id="garden" layoutX="407.0" layoutY="191.0" mnemonicParsing="false" text="Garden" />
                      </children>
                   </AnchorPane>
             </content>
