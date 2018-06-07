@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 
 public class DataManager {
@@ -25,16 +27,18 @@ public class DataManager {
 
 		ObservableList<Project> ProjectList = PM.getmyProjects();
 		filewriter.write(PM.getMeterNumber()+ "_");
-		if (PM.getMeterNumbers().size() != 0) {
+		
+		if (PM.getMeterNumbers().size() != 0) {;
 			for (int i = 0; i < PM.getMeterNumbers().size(); i++) {
-				filewriter.write(PM.getMeterNumbers().get(i));
+				filewriter.write(String.valueOf(PM.getMeterNumbers().get(i)));
+				
 				if (i != PM.getMeterNumbers().size()-1) {
 					filewriter.write(",");
-				} else {
-					filewriter.write("_");
 				}
 			}
 		}
+		filewriter.write(System.getProperty( "line.separator" ));
+
 		
 		//Get the projects from the list, store them by attributes into text file.
 		for (int i = 0; i < ProjectList.size(); i++) {
@@ -43,11 +47,11 @@ public class DataManager {
 							+ project.getHours() + "," + project.getType());
 			filewriter.write("_");
 			for (int j = 0; j < project.getMaterials().size(); j++) {				
-				filewriter.write(project.getMaterials().get(j));
+				filewriter.write(project.getMaterials().get(j).getName()+ "-" + project.getMaterials().get(j).getQuantity());
 				if (j != project.getMaterials().size()-1) {
 					filewriter.write(","); 
 				} else {
-					filewriter.write("\n");   
+					filewriter.write(System.getProperty( "line.separator" ));   
 				}
 			}
 		}
@@ -71,6 +75,8 @@ public class DataManager {
 		FileReader fr;
 		BufferedReader br;
 		
+		ObservableList<Material>materialList = ProjectManager.createMaterialList();
+		
 		File file = new File(userinfo+".txt");
 		fr = new FileReader(file);
 		br = new BufferedReader(fr);
@@ -83,10 +89,22 @@ public class DataManager {
 		String[] tokens; //Array of project attributes.
 		String[] info;
 		String[] mats;
+		
+		String tmp = br.readLine();
+		String[] meterCollection = tmp.split("_");
+		if (meterCollection.length == 2) {
+			String[] meterNumArr = meterCollection[1].split(",");
+			ArrayList<Integer> meterNumbers = new ArrayList<Integer>();
+			for (int i = 0; i < meterNumArr.length; i++) {
+				meterNumbers.add(Integer.parseInt(meterNumArr[i]));
+			}
+		}
+		retrieved.setMeterNumber(Integer.parseInt(meterCollection[0]));
+		
+		
 		//Read file, create project accordingly and add to the project manager.
 		while((projectString = br.readLine()) != null) {
 			info = projectString.split("_");
-			
 			tokens = info[0].split(",");
 			projectname = tokens[0];
 			projectcost = Integer.parseInt(tokens[1]);
@@ -97,34 +115,54 @@ public class DataManager {
 			
 			//Create the project with found attribute, add.
 			Project project = new Project(projecttype, projectname, projectcost, projecthour);
-			for (String s : mats) {
-				project.addMaterial(s);
+			for (int i = 0; i<mats.length; i++) {
+				String[] matInfo = mats[i].split("-");
+				for (Material m : materialList) {
+					if (m.getName().equals(matInfo[0])) {
+						Material temp = m;
+						temp.setQuantity(Integer.parseInt(matInfo[1]));
+						project.addMaterial(temp);
+					}
+				}
 			}
 			retrieved.addProject(project);
-		}
-		
+			} 
 		
 		fr.close();
 		br.close();
 		return retrieved;
 	}
 	
-	
+	/*
 	
 	public static void main(String[] args) throws IOException {
 		ProjectManager pm = new ProjectManager();
 		pm.addUser("emmettkang\nelk9516", 100);
 		Project p1 = new Project("Mercury", "Emmett1", 36000, 12);
+		Project p2 = new Project("Boundless", "Emmett2", 36000, 12);
 		ObservableList<Material> mat = ProjectManager.createMaterialList();
+		pm.addMeterMeasure(47);
 		p1.setMaterials(mat);
+		p2.setMaterials(mat);
+		pm.addProject(p2);
 		pm.addProject(p1);
 		pm.setMeterNumber(15);
 		storeProjects(pm);
-		
-		
+		ProjectManager manager = retrieveProjects("elk9516");
+		for (Integer mn : pm.getMeterNumbers()) {
+			System.out.println(mn);
+		}
+		for (Project p : manager.getmyProjects()) {
+			System.out.println("new Project");
+			System.out.println(p.getName());
+			for (Material m : p.getMaterials()) {
+				System.out.println(m.getName() + m.getQuantity());
+			}
+	
+		}
 		
 	}
-	
+	*/
 		
 
 }

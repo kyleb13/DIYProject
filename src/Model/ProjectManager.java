@@ -164,6 +164,10 @@ public class ProjectManager {
 		public void setMeterNumber(int theMeterNumber) {
 			meterNumber = theMeterNumber;
 		}
+		
+		public void setMeterNumbers(ArrayList<Integer> theList) {
+			meterNumbers = theList;
+		}
 
 
 }
