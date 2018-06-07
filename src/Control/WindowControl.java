@@ -276,6 +276,7 @@ public class WindowControl{
             newProjectWindowControl controller = loader.getController();
             controller.addProject(theProject);
             controller.setupAvailibleMaterials();
+            controller.setUpAddedMaterials();
             stage.show();
         }
         catch (IOException e) {
