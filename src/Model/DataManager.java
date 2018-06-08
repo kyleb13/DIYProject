@@ -68,9 +68,8 @@ public class DataManager {
 	 * @return ProjectManager object that contains retrieved projects.
 	 * @throws IOException If the file cannot be found(I.E there's no project manager for the user), throw stuff. 
 	 */
-	public static ProjectManager retrieveProjects(File file) throws IOException {
-		//ProjectManager to be returned after populating with project.
-		ProjectManager retrieved = new ProjectManager();
+	public static void retrieveProjects(File file, ProjectManager retrieved) throws IOException {
+		retrieved.getmyProjects().clear();
 		String projectString = "";
 		FileReader fr;
 		BufferedReader br;
@@ -84,7 +83,7 @@ public class DataManager {
 		String projectname;
 		String projecttype;
 		int projecthour;
-		int projectcost;
+		double projectcost;
 		String[] tokens; //Array of project attributes.
 		String[] info;
 		String[] mats;
@@ -106,30 +105,31 @@ public class DataManager {
 			info = projectString.split("_");
 			tokens = info[0].split(",");
 			projectname = tokens[0];
-			projectcost = Integer.parseInt(tokens[1]);
+			projectcost = Double.parseDouble(tokens[1]);
 			projecthour = Integer.parseInt(tokens[2]);
 			projecttype = tokens[3];
 			
-			mats = info[1].split(",");
-			
-			//Create the project with found attribute, add.
 			Project project = new Project(projecttype, projectname, projectcost, projecthour);
-			for (int i = 0; i<mats.length; i++) {
-				String[] matInfo = mats[i].split("-");
-				for (Material m : materialList) {
-					if (m.getName().equals(matInfo[0])) {
-						Material temp = m;
-						temp.setQuantity(Integer.parseInt(matInfo[1]));
-						project.addMaterial(temp);
+			if(info.length >1) {
+				mats = info[1].split(",");
+				
+				//Create the project with found attribute, add.
+				for (int i = 0; i<mats.length; i++) {
+					String[] matInfo = mats[i].split("-");
+					for (Material m : materialList) {
+						if (m.getName().equals(matInfo[0])) {
+							Material temp = m;
+							temp.setQuantity(Integer.parseInt(matInfo[1]));
+							project.addMaterial(temp);
+						}
 					}
 				}
 			}
 			retrieved.addProject(project);
-			} 
+		} 
 		
 		fr.close();
 		br.close();
-		return retrieved;
 	}
 	
 	/*

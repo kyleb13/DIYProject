@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ConcurrentModificationException;
 import java.util.Optional;
 import FileManagement.FileSystem;
+import Model.DataManager;
 import Model.Project;
 import Model.ProjectManager;
 import javafx.collections.ListChangeListener;
@@ -31,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -147,14 +149,21 @@ public class WindowControl{
 	 * @author Tyler Pitsch
 	 */
 	public void handleImport()  {
-		
+		/*
 		FileSystem sys = new FileSystem();
 		try {
 			manager = sys.openNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}*/
+		FileChooser choice = new FileChooser();
+		File f = choice.showOpenDialog(null);
+		try {
+			DataManager.retrieveProjects(f, manager);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
 	}
 	
 	/**
@@ -162,10 +171,19 @@ public class WindowControl{
 	 * @author Tyler Pitsch
 	 */
 	public void handleExport() {
-
+		/*
 		FileSystem sys = new FileSystem(manager);
-		sys.saveCurrent();
-		
+		sys.saveCurrent();*/
+		try {
+			DataManager.storeProjects(manager);
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Projects Exported");
+			alert.setHeaderText("Your projects were exported to the file " + manager.getUserEmail() + ".txt in source folder.");
+			alert.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	/**
@@ -296,6 +314,9 @@ public class WindowControl{
 				if(c.wasAdded()) {//New project added
 					for(Project p:c.getAddedSubList()) {//iterate through added projects
 						ImageView newpj = new ImageView("/icons/notype.png");
+						if(p.getType() != "None") {
+							newpj.setImage(new Image("/icons/"+p.getType() + ".png"));
+						}
 						Label name = new Label(p.getName());
 						newpj.setFitWidth(50);
 						newpj.setFitHeight(50);

@@ -15,7 +15,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Separator layoutX="297.0" layoutY="-2.0" orientation="VERTICAL" prefHeight="235.0" prefWidth="5.0" />
-                        <TextField fx:id="price" layoutX="126.0" layoutY="191.0" promptText="0.0" />
+                        <TextField fx:id="price" editable="false" layoutX="126.0" layoutY="191.0" promptText="0.0" />
                         <Label layoutX="39.0" layoutY="195.0" text="Price" />
                         <Label fx:id="error" layoutX="60.0" layoutY="177.0" text="Invalid Input" textAlignment="CENTER" textFill="#eb0303" visible="false" />
                         <TextField fx:id="totalArea" editable="false" layoutX="126.0" layoutY="116.0" text="0.0" />

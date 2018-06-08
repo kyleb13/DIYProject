@@ -1,5 +1,15 @@
 pane wood,2,4,4.99
 pine wood,3,6,5.99
-shit wood,6,9,6.99
-reza,9,10,10.99
-tyler,11,13,10.99
+mahogany wood,6,9,6.99
+concrete,9,10,10.99
+wood planks,1,8,12.99
+shingles,1,1,2.99
+wood laminate,11,13,10.99
+sheet metal,4,4,25.99
+tile,1,1,12.99
+marble,4,8,35.99
+granite,6,6,37.99
+carpet,5,5,9.99
+dirt,5,5,4.99
+gravel,12,12,8.99
+sand,8,8,17.99
