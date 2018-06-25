@@ -173,7 +173,7 @@ public class WindowControl{
 			DataManager.storeProjects(manager);
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Projects Exported");
-			alert.setHeaderText("Your projects were exported to the file " + manager.getUserEmail() + ".txt in source folder.");
+			alert.setHeaderText("Your projects were exported to the file " + manager.getUserEmail() + " at " + DataManager.getSaveLocation() +".");
 			alert.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

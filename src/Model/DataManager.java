@@ -13,6 +13,8 @@ import javafx.collections.ObservableList;
 
 public class DataManager {
 	
+	private static String saveLocation = "";
+	
 	/**
 	 * This method intakes the entire project manager and stores it in text file.
 	 * Each project's attributes are comma separated and at the end, new line is added.
@@ -24,6 +26,7 @@ public class DataManager {
 		String name = PM.getUserEmail()+".txt";
 		File file = new File(name);
 		FileWriter filewriter = new FileWriter(file);
+		saveLocation = file.getAbsolutePath();
 
 		ObservableList<Project> ProjectList = PM.getmyProjects();
 		filewriter.write(PM.getMeterNumber()+ "_");
@@ -74,7 +77,7 @@ public class DataManager {
 		FileReader fr;
 		BufferedReader br;
 		
-		ObservableList<Material>materialList = ProjectManager.createMaterialList();
+		ObservableList<Material> materialList = ProjectManager.createMaterialList();
 		
 		fr = new FileReader(file);
 		br = new BufferedReader(fr);
@@ -130,6 +133,11 @@ public class DataManager {
 		
 		fr.close();
 		br.close();
+	}
+
+
+	public static String getSaveLocation() {
+		return saveLocation;
 	}
 	
 	/*

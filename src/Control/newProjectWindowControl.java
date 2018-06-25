@@ -49,6 +49,11 @@ public class newProjectWindowControl {
 	
 	private ImageView pjImage;
 	
+	//indicates whether a material's quantity was updated from the plus button,
+	//or by editing the text box. Helps to prevent infinite loops that may otherwise
+	//happen when the quantity is updated
+	private boolean quantityEntered = false;
+	
 	/*
 	 * @author Kyle Beveridge
 	 * Constructor for controller class. Gets the master list of materials
@@ -79,8 +84,6 @@ public class newProjectWindowControl {
 	 * Add the materials availible to projects to a list view
 	 * */
 	public void setupAvailibleMaterials() {
-		VBox vbox = new VBox();
-		vbox.setAlignment(Pos.CENTER_LEFT);
 		for(Material m: allMaterials) {
 			HBox box = new HBox();//hbox for storing material info in a row
 			box.setSpacing(15);
@@ -90,8 +93,11 @@ public class newProjectWindowControl {
 			Label l4 = new Label("$" + m.getPrice());
 			Button add = new Button("+");
 			add.setOnAction(e -> {//lambda for adding material to the project
+				//set a boolean to indicate quantity was updated from the plus button
+				//and not by editing the text box
+				quantityEntered = false;
 				HBox parent = ((HBox) add.getParent());
-				Label n = (Label) parent.getChildren().get(0);
+				Label n = (Label) parent.getChildren().get(1);
 				int i = project.findMaterial(n.getText());
 				if(i>=0) {
 					//if material exists in project, increment its quantity
@@ -109,8 +115,7 @@ public class newProjectWindowControl {
 					}
 				}
 			});
-			box.getChildren().addAll(l1, l2, l3,l4,add);
-			vbox.getChildren().add(add);
+			box.getChildren().addAll(add,l1, l2, l3,l4);
 			availibleList.getItems().add(box);
 		}
 	}
@@ -139,9 +144,9 @@ public class newProjectWindowControl {
 				}
 			});
 			q.setMaxWidth(50);
-			Button delete = new Button("x");
+			Button delete = new Button("X");
 			delete.setOnAction(e-> handleDeleteMaterial(m));
-			box.getChildren().addAll(l1, l2, l3,l4, q, delete);
+			box.getChildren().addAll(delete,l1, l2, l3,l4, q);
 			addedList.getItems().add(box);
 		
 		}
@@ -191,7 +196,11 @@ public class newProjectWindowControl {
 			totalQuantity.setText(totalQ + "");
 			totalArea.setText(totalA + " ft^2");
 			String pstring = "$" + totalP;
-			pstring = pstring.substring(0, pstring.indexOf(".") + 3);
+			int end = 3;
+			if(pstring.substring(pstring.indexOf("."), pstring.length()).length()<=3) {
+				end = pstring.length();
+			}
+			pstring = pstring.substring(0, end);
 			price.setText(pstring);
 			project.setCost(totalP);
 		}
@@ -262,13 +271,20 @@ public class newProjectWindowControl {
 
 							@Override
 							public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2) {
-								q.setText(arg2.toString());
+								if (!quantityEntered) {
+									q.setText(arg2.toString());
+								}
 							}
 						});
+						q.setOnAction(e -> {
+							//update quantity
+							m.setQuantity(Integer.parseInt(q.getText()));
+							quantityEntered = true;
+						});
 						q.setMaxWidth(30);
-						Button delete = new Button("x");
+						Button delete = new Button("X");
 						delete.setOnAction(e-> handleDeleteMaterial(m));
-						box.getChildren().addAll(l1, l2, l3,l4, q, delete);
+						box.getChildren().addAll(delete,l1, l2, l3,l4, q);
 						if(idx<0) {
 							//add box if new one was made
 							addedList.getItems().add(box);
@@ -277,12 +293,12 @@ public class newProjectWindowControl {
 				} else if(c.wasRemoved()) {
 					for(Material m:c.getRemoved()) {
 						for(HBox h:addedList.getItems()) {
-							//The second part of this if statement might be confusing, so here is a quick explanation:
-							//This statement checks if the row we are looking at corresponds to the material that was
-							//deleted, so we get the first element of the children of the current hbox, which should
-							//be a label with the material name, and checks that it is the same as the deleted
-							//material's name
-							if(h.getChildren().size() !=0 && ((Label) h.getChildren().get(0)).getText() == m.getName()) {
+							/*The second part of this if statement might be confusing, so here is a quick explanation:
+							This statement checks if the row we are looking at corresponds to the material that was
+							deleted, so we first check that the row is not empty, then get the second element of the 
+							children of the current hbox, which should be a label with the material name, and checks 
+							that its text is the same as the deleted material's name*/
+							if(h.getChildren().size() !=0 && ((Label) h.getChildren().get(1)).getText() == m.getName()) {
 								h.getChildren().clear();
 								break;
 							}
