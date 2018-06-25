@@ -38,6 +38,7 @@ public class Material {
 		quantity.set(theMaterial.getQuantity());
 	}
 	
+	
 	/*
 	 * Getters and setters.
 	 */

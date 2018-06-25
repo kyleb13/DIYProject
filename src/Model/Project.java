@@ -29,7 +29,7 @@ public class Project {
 	 * edited by Reza
 	 * */
 	public Project(String theName) {
-		this("None", theName, 0, 0);
+		this("notype", theName, 0, 0);
 		
 	}
 	
@@ -57,6 +57,14 @@ public class Project {
 
 	public void setMaterials(ObservableList<Material> theMaterials) {
 		myMaterials = theMaterials;
+	}
+	
+	public ObservableList<Material> copyMaterials() {
+		ObservableList<Material> newmat = FXCollections.observableArrayList();
+		for(Material m:myMaterials) {
+			newmat.add(new Material(m));
+		}
+		return newmat;
 	}
 	
 	

@@ -1,16 +1,14 @@
 package Model;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-//TODO: add support to read in existing projects from file system
-//TODO: javadoc and commenting
+
 public class ProjectManager {
 		private ObservableList<Project> myProjects;
 		private String myName;
@@ -53,7 +51,8 @@ public class ProjectManager {
 				newName = oldName + "(" + i + ")";
 			}
 			Project newproj = new Project(theProject.getType(),newName, theProject.getCost(), theProject.getHours());
-		//	newproj.setMaterials(theProject.getMaterials());
+			
+			newproj.setMaterials(theProject.copyMaterials());
 			myProjects.add(newproj);
 			return newproj;
 		}
@@ -122,12 +121,8 @@ public class ProjectManager {
 		public static ObservableList<Material> createMaterialList() throws IOException {
 			ObservableList<Material> materials = FXCollections.observableArrayList();
 			String materialString = "";
-			FileReader fr;
 			BufferedReader br;
-			
-			File file = new File("material.txt");
-			fr = new FileReader(file);
-			br = new BufferedReader(fr);
+			br = new BufferedReader(new InputStreamReader(ProjectManager.class.getResourceAsStream("/material.txt")));
 			
 			//Attributes of materials.
 			String materialName;
@@ -148,8 +143,6 @@ public class ProjectManager {
 				materials.add(material);
 			}
 			
-			
-			fr.close();
 			br.close();
 			return materials;
 		}

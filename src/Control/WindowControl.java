@@ -56,7 +56,6 @@ public class WindowControl{
 	private ProjectManager manager;
 	private Stage window;
 
-	private Scene windowScene;
 	@FXML
 	//private Button newProject;
 	private ImageView newProject;
@@ -64,9 +63,6 @@ public class WindowControl{
 	public GridPane gp; 
 	@FXML 
 	public GridPane projectGrid;
-	private startProjectControl spc;
-	
-	
 	@FXML 
    //TableView<Project> table;    
    Project project;
@@ -75,9 +71,8 @@ public class WindowControl{
 	public void makeWindow(Stage window,Scene windowScene) {
 		this.window = window;
 		manager = new ProjectManager();
-		this.windowScene = windowScene;
 		data = manager.getmyProjects();
-		newProject.setImage(new Image("/icons/square_plus.png"));
+		newProject.setImage(new Image("/square_plus.png"));
 		data.addListener(new ProjectListListener());//this listener class is at the bottom
 	}
 	
@@ -101,7 +96,7 @@ public class WindowControl{
 	 * @author Tyler Pitsch 
 	 */
 	public void handleSearch() {
-		String text = search.getText();
+		//String text = search.getText();
 		search.clear();
 	}
 	
@@ -313,10 +308,7 @@ public class WindowControl{
 			while(c.next()) {
 				if(c.wasAdded()) {//New project added
 					for(Project p:c.getAddedSubList()) {//iterate through added projects
-						ImageView newpj = new ImageView("/icons/notype.png");
-						if(p.getType() != "None") {
-							newpj.setImage(new Image("/icons/"+p.getType() + ".png"));
-						}
+						ImageView newpj = new ImageView(WindowControl.class.getResource("/"+p.getType() + ".png").toString());
 						Label name = new Label(p.getName());
 						newpj.setFitWidth(50);
 						newpj.setFitHeight(50);

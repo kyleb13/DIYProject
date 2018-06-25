@@ -2,7 +2,6 @@
 package Control;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import Model.Material;
@@ -12,6 +11,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -19,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class newProjectWindowControl {
@@ -78,6 +79,8 @@ public class newProjectWindowControl {
 	 * Add the materials availible to projects to a list view
 	 * */
 	public void setupAvailibleMaterials() {
+		VBox vbox = new VBox();
+		vbox.setAlignment(Pos.CENTER_LEFT);
 		for(Material m: allMaterials) {
 			HBox box = new HBox();//hbox for storing material info in a row
 			box.setSpacing(15);
@@ -107,6 +110,7 @@ public class newProjectWindowControl {
 				}
 			});
 			box.getChildren().addAll(l1, l2, l3,l4,add);
+			vbox.getChildren().add(add);
 			availibleList.getItems().add(box);
 		}
 	}
@@ -216,7 +220,7 @@ public class newProjectWindowControl {
 	 * @author Kyle Beveridge
 	 * */
 	private void handleTypeChange(String type) {
-		pjImage.setImage(new Image("/icons/" + type + ".png"));
+		pjImage.setImage(new Image("/" + type + ".png"));
 		project.setType(type);
 	}
 	
